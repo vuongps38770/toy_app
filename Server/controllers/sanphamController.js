@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Sanpham = require('../models/sanpham')
-exports.createLoaisp= async(req,res)=>{
+exports.createsp= async(req,res)=>{
     try {
         const {tensanpham} = req.body
         const search = await Sanpham.findOne({tensanpham})

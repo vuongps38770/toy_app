@@ -2,7 +2,7 @@ const ThuongHieu = require('../models/thuonghieu')
 
 exports.getAllThuongHieu= async (req, res)=>{
     try {
-        const list = ThuongHieu.find();
+        const list = await ThuongHieu.find();
         res.status(200).json(list)
     } catch (error) {
         res.status(400).json({message: error})
