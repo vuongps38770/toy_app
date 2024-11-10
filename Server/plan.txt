@@ -1,0 +1,104 @@
+const DonHang = require('../models/DonHang'); // Mô hình đơn hàng
+
+exports.tinhTongDoanhThu = async (req, res) => {
+    try {
+        const tongDoanhThu = await DonHang.aggregate([
+            {
+                $match: { trangThai: 'đã thanh toán' }
+            },
+            {
+                $group: {
+                    _id: null, // Nhóm tất cả
+                    tongDoanhThu: { $sum: '$tongTien' } // Tính tổng doanh thu
+                }
+            }
+        ]);
+        res.status(200).json(tongDoanhThu);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+B. Thống kê doanh thu theo ngày
+javascript
+Copy code
+exports.thongKeDoanhThuTheoNgay = async (req, res) => {
+    try {
+        const doanhThuTheoNgay = await DonHang.aggregate([
+            {
+                $match: { trangThai: 'đã thanh toán' }
+            },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$ngayDat" } }, // Nhóm theo ngày
+                    tongDoanhThu: { $sum: '$tongTien' } // Tính tổng doanh thu
+                }
+            },
+            {
+                $sort: { _id: 1 } // Sắp xếp theo ngày
+            }
+        ]);
+
+        res.status(200).json(doanhThuTheoNgay);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+C. Thống kê doanh thu theo sản phẩm
+Để lấy doanh thu theo từng sản phẩm, bạn sẽ cần kết hợp bảng chi tiết đơn hàng và bảng sản phẩm:
+
+javascript
+Copy code
+const ChiTietDonHang = require('../models/ChiTietDonHang'); // Mô hình chi tiết đơn hàng
+const SanPham = require('../models/SanPham'); // Mô hình sản phẩm
+
+exports.thongKeDoanhThuTheoSanPham = async (req, res) => {
+    try {
+        const doanhThuTheoSanPham = await ChiTietDonHang.aggregate([
+            {
+                $lookup: {
+                    from: 'donhang', // Tên bảng đơn hàng trong MongoDB
+                    localField: 'donHangId',
+                    foreignField: '_id',
+                    as: 'donHang'
+                }
+            },
+            {
+                $unwind: '$donHang' // Giải nén mảng donHang
+            },
+            {
+                $match: { 'donHang.trangThai': 'đã thanh toán' } // Lọc đơn hàng đã thanh toán
+            },
+            {
+                $group: {
+                    _id: '$sanPhamId', // Nhóm theo ID sản phẩm
+                    doanhThu: { $sum: { $multiply: ['$soLuong', '$gia'] } } // Tính doanh thu
+                }
+            },
+            {
+                $lookup: {
+                    from: 'sanpham', // Tên bảng sản phẩm trong MongoDB
+                    localField: '_id',
+                    foreignField: '_id',
+                    as: 'sanPham'
+                }
+            },
+            {
+                $unwind: '$sanPham' // Giải nén mảng sanPham
+            },
+            {
+                $project: {
+                    _id: 1,
+                    tenSanPham: '$sanPham.ten',
+                    doanhThu: 1
+                }
+            },
+            {
+                $sort: { doanhThu: -1 } // Sắp xếp theo doanh thu giảm dần
+            }
+        ]);
+
+        res.status(200).json(doanhThuTheoSanPham);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

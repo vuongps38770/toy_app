@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/donhang"
+        android:title="Duyệt đơn"
+        android:icon="@drawable/baseline_check_box_24"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/placeholder2"
+        android:title=""
+        app:showAsAction="never"
+        android:enabled="false"/>
+    <item
+        android:id="@+id/placeholder1"
+        android:enabled="false"
+        android:title="" />
+    <item
+        android:id="@+id/placeholder3"
+        android:enabled="false"
+        android:title=""
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/item2"
+        android:title="tim kiếm"
+        android:enabled="false"
+        app:showAsAction="never"/>
+</menu>

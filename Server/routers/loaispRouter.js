@@ -1,0 +1,13 @@
+const express = require('express')
+const router = express.Router()
+const loaispController = require('../controllers/loaispController')
+router.post('/loaisp/create',loaispController.createLoaiSP)
+router.get('/loaisp/getLoaiSPByID/:id',loaispController.getLoaiSPByID)
+router.get('/loaisp/getAllLoaiSP',loaispController.getAllLoaiSP)
+router.put('/loaisp/:id',loaispController.editLoaiSPByID)
+router.put('/loaisp/activate/:id',loaispController.activate)
+router.put('/loaisp/unactivate/:id',loaispController.unActivate)
+router.put('/loaisp/activateToggle/:id',loaispController.activateToggle)
+router.put('/loaisp/editLoaiSP',loaispController.editLoaiSPByID)
+router.get('/loaisp/getAllLoaiSPPopulate',loaispController.getAllLoaiSPPopulate)
+module.exports=router;
