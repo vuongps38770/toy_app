@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -291,11 +292,14 @@ public class Admin_screen extends AppCompatActivity {
         Button add = v.findViewById(R.id.them);
         Button cancel = v.findViewById(R.id.huy);
         ImageView addanh = v.findViewById(R.id.addanh);
+        ProgressBar progressBar = v.findViewById(R.id.progress);
         if(!list.isEmpty()) {
             ArrayAdapter<ThuongHieu> adapter = new ArrayAdapter<>(Admin_screen.this, android.R.layout.simple_spinner_item, list);
             adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
             spnThuonghieu.setAdapter(adapter);
+
         }
+
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Admin_screen.this);
@@ -325,11 +329,13 @@ public class Admin_screen extends AppCompatActivity {
 
         add.setOnClickListener(v1 -> {
             if(uris[0]==null){
+
                 //chiịn ảnh
                 return;
             }
             String[] urls={null};
             CloudinaryUpload upload = new CloudinaryUpload(Admin_screen.this);
+            progressBar.setVisibility(View.VISIBLE);
             upload.uploadImage(uris[0], new CloudinaryUpload.UploadCallback() {
                 @Override
                 public void onUploadSuccess(String imageUrl) {
@@ -340,10 +346,11 @@ public class Admin_screen extends AppCompatActivity {
                             ,txtmota.getText().toString()
                             ,(ThuongHieu)spnThuonghieu.getSelectedItem()
                             ,swisisActivate.isChecked() ? 1:0
-                            ,null
+                            ,swisInMainScreen.isChecked()? 1:0
                             ,imageUrl.replaceFirst("http://","https://")
                             );
-                    uploadToDB(sanPham,dialog);
+                    uploadToDB(sanPham,dialog,progressBar);
+
                 }
 
                 @Override
@@ -355,23 +362,26 @@ public class Admin_screen extends AppCompatActivity {
         });
     }
 
-    private void uploadToDB(SanPham sanPham, Dialog dialog) {
+    private void uploadToDB(SanPham sanPham, Dialog dialog, ProgressBar progressBar) {
         SanPhamEndpoint sanPhamEndpoint = new SanPhamEndpoint();
         sanPhamEndpoint.addSanPham(sanPham, new SanPhamEndpoint.CreateSanPhamCallback() {
             @Override
             public void onSuccess() {
                 Toast.makeText(Admin_screen.this, "Đã lưu thành công", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
                 dialog.dismiss();
             }
 
             @Override
             public void onTrungten() {
-                Toast.makeText(Admin_screen.this, "Tên ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Admin_screen.this, "Tên sản phẩm đã tồn tại", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(String message) {
-
+                Toast.makeText(Admin_screen.this, "Có lỗi xảy ra "+message, Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
 
