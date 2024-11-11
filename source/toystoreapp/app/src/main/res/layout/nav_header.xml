@@ -4,16 +4,20 @@
     android:layout_height="200dp"
     android:background="@drawable/img_1"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="16dp">
 
+    <!-- Image Avatar -->
     <ImageView
         android:id="@+id/nav_header_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/ic_launcher_foreground"
         android:layout_marginTop="16dp"
-        android:contentDescription="User Avatar" />
+        android:contentDescription="User Avatar"
+        android:layout_gravity="center" />
 
+    <!-- User Name -->
     <TextView
         android:id="@+id/nav_header_name"
         android:layout_width="wrap_content"
@@ -21,5 +25,10 @@
         android:text="Admin"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:shadowColor="#000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="3"/>
 </LinearLayout>
