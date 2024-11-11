@@ -329,8 +329,7 @@ public class Admin_screen extends AppCompatActivity {
 
         add.setOnClickListener(v1 -> {
             if(uris[0]==null){
-
-                //chiịn ảnh
+                Toast.makeText(this, "Vui lòng chọn ảnh cho sản phẩm", Toast.LENGTH_SHORT).show();
                 return;
             }
             String[] urls={null};
