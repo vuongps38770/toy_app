@@ -19,6 +19,7 @@ import com.project1.toystoreapp.Fragment.GioHangFragment;
 import com.project1.toystoreapp.Fragment.HomeFragment;
 import com.project1.toystoreapp.Fragment.QLSPFragment;
 import com.project1.toystoreapp.Fragment.Top10Fragment;
+import com.project1.toystoreapp.Fragment.XacThucFragment;
 import com.project1.toystoreapp.R;
 
 public class NavigationDrawer extends AppCompatActivity
@@ -63,7 +64,9 @@ public class NavigationDrawer extends AppCompatActivity
             selectedFragment = new GioHangFragment();
         } else if (item.getItemId() == R.id.nav_quanlysp) {
             selectedFragment = new QLSPFragment();
-        } else if (item.getItemId() == R.id.nav_top10) {
+        } else if (item.getItemId() == R.id.nav_xacthuc) {
+            selectedFragment = new XacThucFragment();
+        }else if (item.getItemId() == R.id.nav_top10) {
             selectedFragment = new Top10Fragment();
         } else if (item.getItemId() == R.id.nav_doanhthu) {
             selectedFragment = new DoanhThuFragment();
