@@ -9,10 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -25,6 +25,8 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.navigation.NavigationBarView;
 import com.project1.toystoreapp.API_end_points.LoaiSPEndpoint;
 import com.project1.toystoreapp.API_end_points.SanPhamEndpoint;
@@ -32,7 +34,7 @@ import com.project1.toystoreapp.API_end_points.ThuongHieuEndpoint;
 import com.project1.toystoreapp.Classes.CloudinaryUpload;
 import com.project1.toystoreapp.Classes.ImagePicker;
 import com.project1.toystoreapp.Classes.RequestPermission;
-import com.project1.toystoreapp.Classes.ThuongHieu;
+import com.project1.toystoreapp.model.ThuongHieu;
 import com.project1.toystoreapp.R;
 import com.project1.toystoreapp.databinding.ActivityAdminScreenBinding;
 import com.project1.toystoreapp.layout.AdminQuanLyThuongHieu_fg;
@@ -44,7 +46,8 @@ import com.project1.toystoreapp.model.LoaiSP;
 import com.project1.toystoreapp.model.SanPham;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,6 +57,13 @@ import retrofit2.Response;
 public class Admin_screen extends AppCompatActivity {
     ImagePicker imagePicker;
     private ActivityAdminScreenBinding binding;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.bottomAppBar.setEnabled(false);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,12 +76,15 @@ public class Admin_screen extends AppCompatActivity {
         binding.bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fg =getSupportFragmentManager().findFragmentById(R.id.frameLayout);
                 if(item.getItemId()==R.id.home){
                     setFragment(new Admin_QuanLy_all_fg(),false);
                     getSupportFragmentManager().popBackStack();
                 }else if (item.getItemId()==R.id.search){
-                    if(getSupportFragmentManager().findFragmentById(R.id.frameLayout) instanceof Admin_Quanly_Loai_SP_fg){
+                    if(fg instanceof Admin_Quanly_Loai_SP_fg){
                         Toast.makeText(Admin_screen.this, "searrchq", Toast.LENGTH_SHORT).show();
+                    } else if (fg instanceof Admin_QuanLy_SP_fg) {
+                        ((Admin_QuanLy_SP_fg)fg).search(true);
                     }
                 }
                 return true;
@@ -98,6 +111,9 @@ public class Admin_screen extends AppCompatActivity {
 //        return false;
 //    }
     public void settupCurrentFG(){
+        binding.bottomAppBar.setVisibility(View.VISIBLE);
+        binding.add.show();
+        binding.bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
         Fragment curr = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
         if(curr instanceof Admin_QuanLy_all_fg){
             setupLayoutTrangChu();
@@ -123,10 +139,11 @@ public class Admin_screen extends AppCompatActivity {
         binding.bottomNav.getMenu().clear();
         binding.bottomNav.inflateMenu(R.menu.bottom_admin_menu1);
         binding.add.setOnClickListener(v -> {
-            createThemSPDialog(fragment);
+            createThemLSPDialog(fragment);
         });
     }
     private void setupLayoutTrangQLLSPCon(Admin_QuanLy_Loai_SPCon_fg fragment) {
+        binding.add.hide();
         binding.bottomNav.getMenu().clear();
         binding.bottomNav.inflateMenu(R.menu.bottom_admin_menu1);
     }
@@ -134,17 +151,23 @@ public class Admin_screen extends AppCompatActivity {
         binding.bottomNav.getMenu().clear();
         binding.bottomNav.inflateMenu(R.menu.bottom_admin_menu1);
         binding.add.setOnClickListener(v -> {
-            createThemSanPhamDialog();
+            createThemSanPhamDialog( fragment);
         });
     }
     private void setupLayoutTrangChu() {
+        binding.bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
         binding.bottomNav.getMenu().clear();
         binding.bottomNav.inflateMenu(R.menu.bottom_admin_menu2);
         ///đẻ đây tí làm
         binding.add.setOnClickListener(null);
     }
 
-    private void createThemSPDialog(Admin_Quanly_Loai_SP_fg fragment){
+
+
+
+
+
+    private void createThemLSPDialog(Admin_Quanly_Loai_SP_fg fragment){
         View v = LayoutInflater.from(Admin_screen.this).inflate(R.layout.dialog_edit_tenlssp,null);
         AlertDialog.Builder builder = new AlertDialog.Builder(Admin_screen.this);
         builder.setView(v);
@@ -199,6 +222,7 @@ public class Admin_screen extends AppCompatActivity {
         AppCompatButton btnhuy=v.findViewById(R.id.btnhuy);
         ImageView im= v.findViewById(R.id.anh);
         ProgressBar progressBar = v.findViewById(R.id.progress);
+        Glide.with(progressBar).load(R.drawable.loading);
         EditText edtTenThuongHieu= v.findViewById(R.id.txtTenThuongHieu);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Admin_screen.this);
@@ -247,6 +271,7 @@ public class Admin_screen extends AppCompatActivity {
                     Toast.makeText(Admin_screen.this, "Đã thêm thành công", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                     dialog.dismiss();
+                    fragment.resetData();
                 }
                 @Override
                 public void onLoi(String message) {
@@ -273,15 +298,15 @@ public class Admin_screen extends AppCompatActivity {
             dialog.dismiss();
         });
     }
-    private void createThemSanPhamDialog(){
+    private void createThemSanPhamDialog(Admin_QuanLy_SP_fg fragment){
         ThuongHieuEndpoint thuongHieuEndpoint = new ThuongHieuEndpoint();
         thuongHieuEndpoint.getAllThuongHieu(thuongHieus -> {
-            Toast.makeText(Admin_screen.this, String.valueOf(thuongHieus.size()), Toast.LENGTH_SHORT).show();
-            createViewDialog(thuongHieus);
+            createViewAddSPDialog(thuongHieus,fragment);
 
         });
     }
-    private void createViewDialog(List<ThuongHieu> list){
+    ///for createThemSanPhamDialog
+    private void createViewAddSPDialog(@NonNull List<ThuongHieu> list,Admin_QuanLy_SP_fg fragment){
         View v = LayoutInflater.from(Admin_screen.this).inflate((R.layout.admin_add_sp_dialog),null);
         EditText txttensanpham = v.findViewById(R.id.txttensanpham);
         EditText txtgia = v.findViewById(R.id.txtgia);
@@ -291,8 +316,10 @@ public class Admin_screen extends AppCompatActivity {
         Switch swisisActivate = v.findViewById(R.id.swisisActivate);
         Button add = v.findViewById(R.id.them);
         Button cancel = v.findViewById(R.id.huy);
+
         ImageView addanh = v.findViewById(R.id.addanh);
-        ProgressBar progressBar = v.findViewById(R.id.progress);
+        ImageView progressBar = v.findViewById(R.id.progress);
+        Glide.with(progressBar).load(R.drawable.loading).into(progressBar);
         if(!list.isEmpty()) {
             ArrayAdapter<ThuongHieu> adapter = new ArrayAdapter<>(Admin_screen.this, android.R.layout.simple_spinner_item, list);
             adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
@@ -300,12 +327,13 @@ public class Admin_screen extends AppCompatActivity {
 
         }
 
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(Admin_screen.this);
         builder.setView(v);
         AlertDialog dialog = builder.create();
         dialog.show();
+        cancel.setOnClickListener(v1 -> {
+            dialog.dismiss();
+        });
         Uri[] uris ={null};
         addanh.setOnClickListener(v1 -> {
             if(!RequestPermission.request(Admin_screen.this,Manifest.permission.READ_EXTERNAL_STORAGE,1)) {
@@ -328,6 +356,30 @@ public class Admin_screen extends AppCompatActivity {
 
 
         add.setOnClickListener(v1 -> {
+            if(txttensanpham.getText().toString().trim().equals("")){
+                Toast.makeText(this, "Vui lòng điền tên sản phẩm", Toast.LENGTH_SHORT).show();
+                txttensanpham.requestFocus();
+                return;
+            }
+            if(txtgia.getText().toString().trim().equals("")){
+                Toast.makeText(this, "Vui lòng điền nhập giá", Toast.LENGTH_SHORT).show();
+                txtgia.requestFocus();
+                return;
+            }
+            if(txtmota.getText().toString().trim().equals("")){
+                txtmota.requestFocus();
+                Toast.makeText(this, "Vui lòng nhập mô tả", Toast.LENGTH_SHORT).show();
+
+            }
+            String regex = "^[1-9][0-9]*$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(txtgia.getText().toString().trim());
+            if(!matcher.matches()){
+                txtgia.requestFocus();
+                Toast.makeText(this, "Vui lòng nhập đúng giá", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if(uris[0]==null){
                 Toast.makeText(this, "Vui lòng chọn ảnh cho sản phẩm", Toast.LENGTH_SHORT).show();
                 return;
@@ -348,7 +400,7 @@ public class Admin_screen extends AppCompatActivity {
                             ,swisInMainScreen.isChecked()? 1:0
                             ,imageUrl.replaceFirst("http://","https://")
                             );
-                    uploadToDB(sanPham,dialog,progressBar);
+                    uploadToDB(sanPham,dialog,progressBar,fragment);
 
                 }
 
@@ -361,12 +413,13 @@ public class Admin_screen extends AppCompatActivity {
         });
     }
 
-    private void uploadToDB(SanPham sanPham, Dialog dialog, ProgressBar progressBar) {
+    private void uploadToDB(SanPham sanPham, Dialog dialog, ImageView progressBar,Admin_QuanLy_SP_fg fragment) {
         SanPhamEndpoint sanPhamEndpoint = new SanPhamEndpoint();
         sanPhamEndpoint.addSanPham(sanPham, new SanPhamEndpoint.CreateSanPhamCallback() {
             @Override
             public void onSuccess() {
                 Toast.makeText(Admin_screen.this, "Đã lưu thành công", Toast.LENGTH_SHORT).show();
+                fragment.resetLayout();
                 progressBar.setVisibility(View.GONE);
                 dialog.dismiss();
             }

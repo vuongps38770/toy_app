@@ -3,6 +3,7 @@ package com.project1.toystoreapp.Classes;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -55,6 +56,7 @@ public class CloudinaryUpload {
                 return cloudinary.uploader().upload(tempFile, ObjectUtils.emptyMap());
             } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
+                Log.e("doInBackground: ", e.getMessage());
                 return null;
             } finally {
                 if (tempFile != null && tempFile.exists()) {
@@ -68,6 +70,7 @@ public class CloudinaryUpload {
             if (callback != null) {
                 if (result != null) {
                     callback.onUploadSuccess(result.get("url"));
+
                 } else {
                     callback.onUploadFailed();
                 }

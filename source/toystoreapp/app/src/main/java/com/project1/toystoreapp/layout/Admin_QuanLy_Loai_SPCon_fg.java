@@ -81,7 +81,6 @@ public class Admin_QuanLy_Loai_SPCon_fg extends Fragment {
         loaiSPEndpoint = new LoaiSPEndpoint();
         return binding.getRoot();
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -94,15 +93,14 @@ public class Admin_QuanLy_Loai_SPCon_fg extends Fragment {
                         public <T> void onClickedItem(T item) {
                             if(item instanceof LoaiSPCon){
                                 LoaiSPCon loaiSPCon = (LoaiSPCon) item;
-
                                 Intent intent = new Intent(getContext(), Admin_qlSP.class);
                                 intent.putExtra("IDSPCON",loaiSPCon.getId());
                                 startActivity(intent);
                             }
                         }
                     });
-                    binding.recyclerviewLsp.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-                    binding.recyclerviewLsp.setAdapter(adapter);
+                        binding.recyclerviewLsp.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+                        binding.recyclerviewLsp.setAdapter(adapter);
                 });
             }else {
                 getActivity().runOnUiThread(()->{
@@ -110,7 +108,6 @@ public class Admin_QuanLy_Loai_SPCon_fg extends Fragment {
                 });
             }
         });
-
     }
 
 

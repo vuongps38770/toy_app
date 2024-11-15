@@ -57,8 +57,7 @@ public class Login extends AppCompatActivity {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
-                                        })
-                                        .setMessage("bạn đã đăng nhập thành công với tư cách Admin bucu");
+                                        });
                         AlertDialog alertDialog=builder.create();
                         alertDialog.show();
 

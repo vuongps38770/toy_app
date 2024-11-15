@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Activities.Admin_screen"
     android:background="@color/black">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,7 +28,8 @@
         app:fabCradleRoundedCornerRadius="50dp"
         app:fabCradleVerticalOffset="5dp"
         app:hideOnScroll="true"
-        app:layout_scrollFlags="scroll|enterAlways"
+        app:layout_scrollFlags="enterAlways|scroll"
+
        >
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

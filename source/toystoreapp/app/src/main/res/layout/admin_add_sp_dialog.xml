@@ -1,61 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@color/white">
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progress"
-        android:visibility="invisible"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tên sản phẩm"
-        android:id="@+id/txttensanpham"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Giá"
-        android:id="@+id/txtgia"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mô tả"
-        android:id="@+id/txtmota"/>
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spnThuonghieu"/>
-    <Switch
-        android:text="hiện ở trang chủ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/swisInMainScreen"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
-    <Switch
-        android:text="Ẩn khỏi gian hàng"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/swisisActivate"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/huy"
-        android:text="Huỷ"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/them"
-        android:text="Thêm"/>
     <ImageView
-        android:id="@+id/addanh"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
-        android:background="@drawable/baseline_add_24" />
+        android:layout_width="wrap_content"
+        android:scaleType="fitCenter"
+        android:layout_height="60dp"
+        android:id="@+id/progress"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tên sản phẩm"
+            android:id="@+id/txttensanpham"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Giá"
+            android:id="@+id/txtgia"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mô tả"
+            android:id="@+id/txtmota"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spnThuonghieu"/>
+        <Switch
+            android:text="hiện ở trang chủ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/swisInMainScreen"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+        <Switch
+            android:text="Ẩn khỏi gian hàng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/swisisActivate"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/huy"
+            android:text="Huỷ"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/them"
+            android:text="Thêm"/>
+        <ImageView
+            android:id="@+id/addanh"
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:background="@drawable/baseline_add_24" />
+    </LinearLayout>
+
+
+</FrameLayout>

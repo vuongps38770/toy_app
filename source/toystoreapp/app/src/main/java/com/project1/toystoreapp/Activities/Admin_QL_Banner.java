@@ -35,7 +35,7 @@ public class Admin_QL_Banner extends AppCompatActivity {
     ImagePicker imagePicker;
     Banner banner;
     final Uri[] uris=new Uri[3];
-    int counter=0;
+    private int counter=0;
     final Banner[] banners = {null};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,9 @@ public class Admin_QL_Banner extends AppCompatActivity {
         imagePicker = new ImagePicker(this);
         binding = ActivityAdminQlBannerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.back.setOnClickListener(v->{
+            getOnBackPressedDispatcher().onBackPressed();
+        });
         BannerEndpoint endpoint = new BannerEndpoint();
         endpoint.getBanner(new BannerEndpoint.OnGetBannerListener() {
             @Override
@@ -131,27 +134,25 @@ public class Admin_QL_Banner extends AppCompatActivity {
                 binding.progress.setVisibility(View.VISIBLE);
                 if(uris[0]!=null){
                     if(counter==-1){
-                        Toast.makeText(Admin_QL_Banner.this, "Có lôỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Admin_QL_Banner.this, "Có lỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     upload(uris[0],0);
                 }
                 if(uris[1]!=null){
                     if(counter==-1){
-                        Toast.makeText(Admin_QL_Banner.this, "Có lôỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Admin_QL_Banner.this, "Có lỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     upload(uris[1],1);
                 }
                 if(uris[2]!=null){
                     if(counter==-1){
-                        Toast.makeText(Admin_QL_Banner.this, "Có lôỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Admin_QL_Banner.this, "Có lỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     upload(uris[2],2);
                 }
-
-
             }
         });
     }

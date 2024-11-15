@@ -3,6 +3,12 @@
     <style name="Base.Theme.Toystoreapp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">serif</item>
+
+    </style>
+    <style name="ShapeAppearanceOverlay.App.CornerSize16" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="Theme.Toystoreapp" parent="Base.Theme.Toystoreapp" />
