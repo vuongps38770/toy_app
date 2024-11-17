@@ -18,10 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project1.toystoreapp.API_end_points.LoaiSPConEndpoint;
+import com.project1.toystoreapp.Classes.VerticalItemSpacingDecoration;
 import com.project1.toystoreapp.Interfaces.OnItemOnclicked;
 import com.project1.toystoreapp.R;
 import com.project1.toystoreapp.model.LoaiSP;
@@ -32,13 +34,14 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class Admin_QL_LSP_SPCON_outter_adapter extends RecyclerView.Adapter<Admin_QL_LSP_SPCON_outter_adapter.ViewHolder>{
 
     private List<LoaiSP> list;
     private Context context;
     private OnItemOnclicked onItemOnclicked;
-    ViewGroup parent;
     LoaiSPConEndpoint loaiSPConEndpoint = new LoaiSPConEndpoint();
     public Admin_QL_LSP_SPCON_outter_adapter(List<LoaiSP> list, Context context, OnItemOnclicked onItemOnclicked) {
         this.list = list;
@@ -49,7 +52,6 @@ public class Admin_QL_LSP_SPCON_outter_adapter extends RecyclerView.Adapter<Admi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View rootView =LayoutInflater.from(context).inflate(R.layout.adminql_loai_sp_con_items,null,false);
         RecyclerView.LayoutParams layoutParams= new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         rootView.setLayoutParams(layoutParams);
@@ -76,6 +78,9 @@ public class Admin_QL_LSP_SPCON_outter_adapter extends RecyclerView.Adapter<Admi
             holder.items.setHasFixedSize(true);
             holder.items.setLayoutManager(linearLayoutManager);
             holder.items.setAdapter(adapter);
+            int space = 20;
+            VerticalItemSpacingDecoration itemSpacingDecoration = new VerticalItemSpacingDecoration(space);
+            holder.items.addItemDecoration(itemSpacingDecoration);
         });
 
         holder.add.setOnClickListener(v -> {
@@ -100,7 +105,13 @@ public class Admin_QL_LSP_SPCON_outter_adapter extends RecyclerView.Adapter<Admi
 
 
             if(ten.getText().toString().trim().equals("")){
-                Toast.makeText(context, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast((Activity) context,
+                        "Thiếu thông tin!",
+                        "Vui lòng nhập đủ thông tin.",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                 return;
             }
 
@@ -117,16 +128,34 @@ public class Admin_QL_LSP_SPCON_outter_adapter extends RecyclerView.Adapter<Admi
                                 resetItem(holder,parent,position);
                                 Log.e("onResponse: ", list.get(position).getListLSPCON().size() + "");
                                 dialog.dismiss();
-                                Toast.makeText(context, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                                MotionToast.Companion.createToast((Activity) context,
+                                        "Thành công!",
+                                        "Thêm thành công.",
+                                        MotionToastStyle.SUCCESS,
+                                        MotionToast.GRAVITY_BOTTOM,
+                                        MotionToast.SHORT_DURATION,
+                                        ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                             }else {
-                                Toast.makeText(context, "rỗng", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "lỗi", Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
                         if (response.code() == 409) {
-                            Toast.makeText(context, "Thêm thất bại, tên trùng", Toast.LENGTH_SHORT).show();
+                            MotionToast.Companion.createToast((Activity) context,
+                                    "Thông tin trùng lặp!",
+                                    "Tên đã tồn tại.",
+                                    MotionToastStyle.WARNING,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.SHORT_DURATION,
+                                    ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                         }else {
-                            Toast.makeText(context, "Thêm thất bại"+response.code(), Toast.LENGTH_SHORT).show();
+                            MotionToast.Companion.createToast((Activity) context,
+                                    "Thất bại!",
+                                    "Thêm thất bại, "+response.code(),
+                                    MotionToastStyle.ERROR,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.SHORT_DURATION,
+                                    ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                             dialog.dismiss();
                         }
 
@@ -135,7 +164,13 @@ public class Admin_QL_LSP_SPCON_outter_adapter extends RecyclerView.Adapter<Admi
 
                 @Override
                 public void onFailure(Call<LoaiSPCon> call, Throwable t) {
-                    Toast.makeText(context, "Thêm thất bại, có lỗi xảy ra", Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast((Activity) context,
+                            "Thất bại!",
+                            "Không thể kết nối với máy chủ.",
+                            MotionToastStyle.ERROR,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                 }
             });
         });

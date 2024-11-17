@@ -2,7 +2,10 @@ package com.project1.toystoreapp.Activities;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,14 +36,37 @@ import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
     private ActivityLoginBinding binding;
+    SharedPreferences sharedPreferences ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String savedaccount = sharedPreferences.getString("account",null);
+        if(savedaccount!=null){
+            Gson gson = new Gson();
+            User user =gson.fromJson(savedaccount,User.class);
+            if(user.getRole()==1){
+                Intent intent = new Intent(Login.this,Admin_screen.class);
+                intent.putExtra("account",user);
+                startActivity(intent);
+                finish();
+            }
+            return;
+        }
         binding=ActivityLoginBinding.inflate(getLayoutInflater());
         binding.progress.setVisibility(View.GONE);
         setContentView(binding.getRoot());
-
+        binding.btnSignup.setOnClickListener(v -> {
+            Intent intent = new Intent(Login.this, SignUp.class);
+            startActivity(intent);
+        });
+        binding.taikhoan.setText("083764312");
+        binding.matkhau.setText("vuong123");
         binding.btnlogin.setOnClickListener(v -> {
+            if(binding.taikhoan.getText().toString().trim().equals("")||binding.matkhau.getText().toString().trim().equals("")){
+                Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
             binding.progress.setVisibility(View.VISIBLE);
             UserEndpoint userEndpoint = new UserEndpoint();
             User user=  new User(binding.taikhoan.getText().toString(), binding.matkhau.getText().toString());
@@ -49,18 +75,19 @@ public class Login extends AppCompatActivity {
                 public void onResponse(Call<User> call, Response<User> response) {
                     if(response.isSuccessful()&&response.body() != null){
                         User user = response.body();
-                        Toast.makeText(Login.this, "Đăng nhập thành công với tư cách"+(user.getRole()==1?"Admin":"người dùng"), Toast.LENGTH_SHORT).show();
-                        AlertDialog.Builder builder= new AlertDialog.Builder(Login.this);
-                        builder.setTitle("Đăng nhập thành công")
-                                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                        AlertDialog alertDialog=builder.create();
-                        alertDialog.show();
-
+                        if(binding.rememberme.isChecked()){
+                            Gson gson = new Gson();
+                            String accountinfo=gson.toJson(user);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("account",accountinfo);
+                            editor.apply();
+                        }
+                        if(user.getRole()==1){
+                            Intent intent = new Intent(Login.this,Admin_screen.class);
+                            intent.putExtra("account",user);
+                            startActivity(intent);
+                            finish();
+                        }
                         binding.progress.setVisibility(View.GONE);
                     }else {
                         Log.e("API Response Error", "Code: " + response.code());
@@ -76,7 +103,6 @@ public class Login extends AppCompatActivity {
 
                         }
                         binding.progress.setVisibility(View.GONE);
-
                     }
                 }
                 @Override

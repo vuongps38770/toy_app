@@ -2,11 +2,15 @@ package com.project1.toystoreapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class LoaiSPCon {
+public class LoaiSPCon implements Serializable {
     @SerializedName("_id")
     private String id;
+
+    public LoaiSPCon() {
+    }
 
     private String parentID;
     private String tenloai;

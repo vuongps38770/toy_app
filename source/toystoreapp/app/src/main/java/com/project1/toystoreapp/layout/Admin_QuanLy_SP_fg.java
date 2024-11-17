@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -46,6 +47,9 @@ import com.project1.toystoreapp.model.ThuongHieu;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -134,12 +138,12 @@ public class Admin_QuanLy_SP_fg extends Fragment {
             binding.searchbar.setBackgroundColor(Color.WHITE);
         }
         ImageView closeButton = binding.searchbar.findViewById(androidx.appcompat.R.id.search_close_btn);
-            closeButton.setOnClickListener(v -> {
-                binding.searchbar.setQuery("", false);
-                binding.searchbar.setVisibility(View.GONE);
-                binding.searchbar.setBackgroundColor(Color.TRANSPARENT);
-            });
-
+        closeButton.setOnClickListener(v -> {
+            binding.searchbar.setQuery("", false);
+            binding.searchbar.setVisibility(View.GONE);
+            Toast.makeText(getContext(), "hide", Toast.LENGTH_SHORT).show();
+            binding.searchbar.setBackgroundColor(Color.TRANSPARENT);
+        });
     }
     private void showSearchViewWithAnimation(SearchView searchView) {
         searchView.setVisibility(View.VISIBLE);
@@ -176,6 +180,19 @@ public class Admin_QuanLy_SP_fg extends Fragment {
         Spinner spnThuonghieu = v.findViewById(R.id.spnThuonghieu);
         Switch swisInMainScreen = v.findViewById(R.id.swisInMainScreen);
         Switch swisisActivate = v.findViewById(R.id.swisisActivate);
+        swisisActivate.setChecked(sanPham.getIsActivate()==1);
+        swisInMainScreen.setChecked(sanPham.getIsInMainScreen()==1);
+        swisisActivate.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!swisisActivate.isChecked()){
+                swisInMainScreen.setChecked(false);
+            }
+        });
+        swisInMainScreen.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!swisisActivate.isChecked()){
+                swisInMainScreen.setChecked(false);
+            }
+        });
+
         Button add = v.findViewById(R.id.them);
         Button cancel = v.findViewById(R.id.huy);
         spnThuonghieu.setVisibility(View.GONE);
@@ -217,25 +234,54 @@ public class Admin_QuanLy_SP_fg extends Fragment {
         });
         add.setOnClickListener(v1 -> {
             if(txttensanpham.getText().toString().trim().equals("")){
-                Toast.makeText(getContext(), "Vui lòng điền tên sản phẩm", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(getActivity(),
+                        "Thiếu thông tin!",
+                        "Vui lòng điền tên sản phẩm",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
+                progressBar.setVisibility(View.GONE);
                 txttensanpham.requestFocus();
                 return;
             }
             if(txtgia.getText().toString().trim().equals("")){
-                Toast.makeText(getContext(), "Vui lòng điền nhập giá", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(getActivity(),
+                        "Thiếu thông tin!",
+                        "Vui lòng nhập giá!",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
+                progressBar.setVisibility(View.GONE);
                 txtgia.requestFocus();
                 return;
             }
             if(txtmota.getText().toString().trim().equals("")){
                 txtmota.requestFocus();
-                Toast.makeText(getContext(), "Vui lòng nhập mô tả", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(getActivity(),
+                        "Thiếu thông tin!",
+                        "Vui lòng nhập mô tả.",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
+                progressBar.setVisibility(View.GONE);
+                return;
             }
             String regex = "^[1-9][0-9]*$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(txtgia.getText().toString().trim());
             if(!matcher.matches()){
                 txtgia.requestFocus();
-                Toast.makeText(getContext(), "Vui lòng nhập đúng giá", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(getActivity(),
+                        "Sai thông tin!",
+                        "Vui lòng nhập đúng giá",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
+                progressBar.setVisibility(View.GONE);
                 return;
             }
             if(uris[0]!=null){
@@ -259,7 +305,14 @@ public class Admin_QuanLy_SP_fg extends Fragment {
 
                     @Override
                     public void onUploadFailed() {
-                        Toast.makeText(getContext(), "Đã xảy ra vấn đề, vui lòng kiểm tra kết nối", Toast.LENGTH_SHORT).show();
+                        MotionToast.Companion.createToast(getActivity(),
+                                "Đã xảy ra vấn đề!",
+                                "vui lòng kiểm tra kết nối",
+                                MotionToastStyle.NO_INTERNET,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.SHORT_DURATION,
+                                ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
             }else {
@@ -292,14 +345,26 @@ public class Admin_QuanLy_SP_fg extends Fragment {
                 });
 
 
-                Toast.makeText(getContext(), "Đã sửa thành công", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(getActivity(),
+                        "Thành công!",
+                        "Đã sửa thành công",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
                 progressBar.setVisibility(View.GONE);
                 dialog.dismiss();
             }
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(getActivity(),
+                        "Thất bại!",
+                        message,
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
                 progressBar.setVisibility(View.GONE);
                 dialog.dismiss();
             }

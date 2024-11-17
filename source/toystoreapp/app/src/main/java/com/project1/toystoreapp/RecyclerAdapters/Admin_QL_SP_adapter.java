@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,12 +31,19 @@ public class Admin_QL_SP_adapter extends RecyclerView.Adapter<Admin_QL_SP_adapte
         this.oglist=list;
     }
     private ItemClicklistener itemClicklistener;
-
+    private ItemLongClicklistener itemLongClicklistener;
     public ItemClicklistener getItemClicklistener() {
         return itemClicklistener;
     }
 
+    public void setItemLongClicklistener(ItemLongClicklistener itemLongClicklistener) {
+        this.itemLongClicklistener = itemLongClicklistener;
+    }
+
     public void setItemClicklistener(ItemClicklistener itemClicklistener) {
+        if (itemClicklistener==null){
+            Log.e("setItemClicklistener: ", null);
+        }
         this.itemClicklistener = itemClicklistener;
     }
 
@@ -57,6 +65,13 @@ public class Admin_QL_SP_adapter extends RecyclerView.Adapter<Admin_QL_SP_adapte
         holder.gia.setText("Giá: "+thisSP.getGia());
         Log.e("onBindViewHolder: ", thisSP.getUrlanh());
         holder.setItemClicked(thisSP,position);
+        holder.itemView.setOnLongClickListener(v -> {
+            if (itemLongClicklistener!=null) {
+                itemLongClicklistener.onItemLongClicked(thisSP,position);
+
+            }
+            return false;
+        });
     }
 
     @Override
@@ -96,11 +111,17 @@ public class Admin_QL_SP_adapter extends RecyclerView.Adapter<Admin_QL_SP_adapte
         }
         public void setItemClicked(SanPham sanPham,int posistion){
             itemView.setOnClickListener(v -> {
-                itemClicklistener.onItemClicked(sanPham,posistion);
+                if(itemClicklistener!=null){
+                    itemClicklistener.onItemClicked(sanPham,posistion);
+                }
+
             });
         }
     }
     public  interface ItemClicklistener{
         void onItemClicked(SanPham sanPham,int posistion);
+    }
+    public  interface ItemLongClicklistener{
+        void onItemLongClicked(SanPham sanPham,int posistion);
     }
 }

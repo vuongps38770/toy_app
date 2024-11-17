@@ -2,6 +2,7 @@ package com.project1.toystoreapp.RecyclerAdapters;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project1.toystoreapp.API_end_points.LoaiSPConEndpoint;
@@ -33,6 +35,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class Admin_QL_LSP_adapter extends RecyclerView.Adapter<Admin_QL_LSP_adapter.ViewHolder>{
     Context context;
@@ -117,14 +121,27 @@ public class Admin_QL_LSP_adapter extends RecyclerView.Adapter<Admin_QL_LSP_adap
                 public void onResponse(Call<LoaiSP> call, Response<LoaiSP> response) {
                     if(response.isSuccessful()){
                         list.set(posistion,response.body());
+
                         notifyItemChanged(posistion);
                     }else {
-                        Toast.makeText(context, "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
+                        MotionToast.Companion.createToast((Activity) context,
+                                "Thất bại!",
+                                "Có lỗi xảy ra.",
+                                MotionToastStyle.ERROR,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.SHORT_DURATION,
+                                ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                     }
                 }
                 @Override
                 public void onFailure(Call<LoaiSP> call, Throwable t) {
-                    Toast.makeText(context, "Vui lòng kiểm tra đường truyền", Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast((Activity) context,
+                            "Thất bại!",
+                            "Không thể kết nối với máy chủ.",
+                            MotionToastStyle.NO_INTERNET,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
 
                 }
             });
@@ -151,16 +168,28 @@ public class Admin_QL_LSP_adapter extends RecyclerView.Adapter<Admin_QL_LSP_adap
         dialog.getWindow().setDimAmount(0.8f);
         dialog.setCancelable(false);
         EditText edtTenLSP= v.findViewById(R.id.txtedtTensp);
-
+        edtTenLSP.setText(loaiSP.getTenloai());
         AppCompatButton btnsua=v.findViewById(R.id.btnsua);
         AppCompatButton btnhuy=v.findViewById(R.id.btnhuy);
         btnsua.setOnClickListener(v1 -> {
             String getten=edtTenLSP.getText().toString();
             if(getten.trim().equals("")){
-                Toast.makeText(context, "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast((Activity) context,
+                        "Thiếu thông tin!",
+                        "Vui lòng nhập đủ thông tin.",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
             }
             else if(getten.equals(loaiSP.getTenloai())){
-                Toast.makeText(context, "Tên cần phải khác tên cũ", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast((Activity) context,
+                        "Cảnh báo!",
+                        "Thông tin chưa được thay đổi.",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
 
             }
             else {
@@ -173,12 +202,24 @@ public class Admin_QL_LSP_adapter extends RecyclerView.Adapter<Admin_QL_LSP_adap
                             try {
                                 list.set(posistion,response.body());
                                 notifyDataSetChanged();
-                                Toast.makeText(context, "Sửa thành công", Toast.LENGTH_SHORT).show();
+                                MotionToast.Companion.createToast((Activity) context,
+                                        "Thành công!",
+                                        "Sửa thành công.",
+                                        MotionToastStyle.SUCCESS,
+                                        MotionToast.GRAVITY_BOTTOM,
+                                        MotionToast.SHORT_DURATION,
+                                        ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
                         }else {
-                            Toast.makeText(context, "Sửa thất bại", Toast.LENGTH_SHORT).show();
+                            MotionToast.Companion.createToast((Activity) context,
+                                    "Thất bại!",
+                                    "Sửa thất bại.",
+                                    MotionToastStyle.ERROR,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.SHORT_DURATION,
+                                    ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                             try {
                                 Log.e(TAG, "onResponse: "+ response.errorBody().string());
 
@@ -189,7 +230,13 @@ public class Admin_QL_LSP_adapter extends RecyclerView.Adapter<Admin_QL_LSP_adap
                     }
                     @Override
                     public void onFailure(Call<LoaiSP> call, Throwable t) {
-                        Toast.makeText(context, "Kết nối vơi máy chủ thất bại", Toast.LENGTH_SHORT).show();
+                        MotionToast.Companion.createToast((Activity) context,
+                                "Thất bại!",
+                                "Không thể kết nối với máy chủ.",
+                                MotionToastStyle.NO_INTERNET,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.SHORT_DURATION,
+                                ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                         Log.e("onFailure: ",t.getMessage() );
                     }
                 });
@@ -212,14 +259,26 @@ public class Admin_QL_LSP_adapter extends RecyclerView.Adapter<Admin_QL_LSP_adap
             loaiSPEndpoint.deleteLoaiSP(loaiSP, new LoaiSPEndpoint.onDeleteAwait() {
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(context, "Đã xoá thành công", Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast((Activity) context,
+                            "Thành công!",
+                            "Đã xoá thành công.",
+                            MotionToastStyle.WARNING,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                     list.remove(posistion);
                     notifyItemRangeChanged(posistion,list.size());
                 }
 
                 @Override
                 public void onFailure(String errorr) {
-                    Toast.makeText(context, errorr, Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast((Activity) context,
+                            "Thất bại!",
+                            errorr,
+                            MotionToastStyle.WARNING,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(context, www.sanju.motiontoast.R.font.helvetica_regular));
                 }
             });
         }));

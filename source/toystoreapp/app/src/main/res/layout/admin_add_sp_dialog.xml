@@ -1,69 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:background="@color/white">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:scaleType="fitCenter"
-        android:layout_height="60dp"
-        android:id="@+id/progress"
-        android:layout_gravity="center"
-        android:visibility="gone"/>
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <EditText
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên sản phẩm"
-            android:id="@+id/txttensanpham"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Giá"
-            android:id="@+id/txtgia"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Mô tả"
-            android:id="@+id/txtmota"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnThuonghieu"/>
-        <Switch
-            android:text="hiện ở trang chủ"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/swisInMainScreen"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
-        <Switch
-            android:text="Ẩn khỏi gian hàng"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/swisisActivate"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+            android:padding="20dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_height="60dp"
+                android:id="@+id/progress"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/huy"
-            android:text="Huỷ"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/them"
-            android:text="Thêm"/>
-        <ImageView
-            android:id="@+id/addanh"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:background="@drawable/baseline_add_24" />
-    </LinearLayout>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tên sản phẩm"
+                    android:id="@+id/txttensanpham"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Giá"
+                    android:id="@+id/txtgia"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Mô tả"
+                    android:id="@+id/txtmota"/>
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spnThuonghieu"
+                    />
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="0dp">
+                    <ImageView
+                        android:id="@+id/addanh"
+                        android:layout_width="100dp"
+                        android:layout_height="60dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_1"
+                        />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginRight="0dp">
+                        <Switch
+                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="right"
+                            android:textSize="10sp"
+                            android:text="Hiện ở danh sách bán"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/swisisActivate"
+                            tools:ignore="UseSwitchCompatOrMaterialXml"
+                            />
+                        <Switch
+                            android:layout_marginLeft="5dp"
+                            android:text="Hiện ở trang chủ"
+                            android:layout_gravity="right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/swisInMainScreen"
+                            tools:ignore="UseSwitchCompatOrMaterialXml"
+                            android:textSize="10sp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
 
-</FrameLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginTop="10dp">
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:id="@+id/huy"
+                        android:text="Huỷ"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/button_bg_main_round"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:id="@+id/them"
+                        android:text="Thêm"
+                        android:background="@drawable/button_bg_main_round"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+
+</androidx.cardview.widget.CardView>

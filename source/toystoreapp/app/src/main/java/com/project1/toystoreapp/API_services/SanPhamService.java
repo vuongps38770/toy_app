@@ -22,4 +22,9 @@ public interface SanPhamService {
     @PUT("sanpham/editSPByID/{id}")
     Call<SanPham> editSp(@Body Map<String,Object> body, @Path("id") String id);
 
+    @GET("sanpham/getAllsanphamByLoaiSPconID/{id}")
+    Call<List<SanPham>> getAllsanphamByLoaiSPconID(@Path("id") String spconID);
+
+    @GET("sanpham/getAllsanphamNotHaveLoaiSPconID/{id}")
+    Call<List<SanPham>> getAllsanphamNotHaveLoaiSPconID(@Path("id") String spconID);
 }

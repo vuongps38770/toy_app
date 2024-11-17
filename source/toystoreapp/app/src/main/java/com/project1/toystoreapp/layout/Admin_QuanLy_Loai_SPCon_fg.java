@@ -94,7 +94,7 @@ public class Admin_QuanLy_Loai_SPCon_fg extends Fragment {
                             if(item instanceof LoaiSPCon){
                                 LoaiSPCon loaiSPCon = (LoaiSPCon) item;
                                 Intent intent = new Intent(getContext(), Admin_qlSP.class);
-                                intent.putExtra("IDSPCON",loaiSPCon.getId());
+                                intent.putExtra("SPCON",loaiSPCon);
                                 startActivity(intent);
                             }
                         }

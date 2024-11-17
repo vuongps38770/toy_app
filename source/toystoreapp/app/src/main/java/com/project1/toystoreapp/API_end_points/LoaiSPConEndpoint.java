@@ -5,6 +5,7 @@ import android.util.Log;
 import com.project1.toystoreapp.API_services.LoaiSPConService;
 import com.project1.toystoreapp.model.LoaiSPCon;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -64,7 +65,55 @@ public class LoaiSPConEndpoint extends BaseAPIEndpoint{
             }
         });
     }
+    public void addSP(String LSPConID,String sanphamID, onADDSP callback){
+        loaiSPConService.addSanPham(LSPConID,sanphamID).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess();
+                }else {
+                    callback.onFailure("Thêm thất bại, có lỗi xảy ra");
+                    try {
+                        Log.e("addSanPham", response.code()+response.errorBody().string() );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onFailure("Thêm thất bại, có lỗi xảy ra");
+                Log.e( "addSanPham onFailure: ",t.getMessage() );
+            }
+        });
+    }
+    public void removeSP(String LSPConID,String sanphamID, onDeleteAwait callback){
+        loaiSPConService.removeSanPham(LSPConID,sanphamID).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess();
+                }else {
+                    callback.onFailure("Xoá thất bại, có lỗi xảy ra");
+                    try {
+                        Log.e("addSanPham", response.code()+response.errorBody().string() );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onFailure("Xoá thất bại, có lỗi xảy ra");
+                Log.e( "addSanPham onFailure: ",t.getMessage() );
+            }
+        });
+    }
+    public interface onADDSP{
+        void onSuccess();
+        void onFailure(String error);
+    }
     public interface onDeleteAwait{
         void onSuccess();
         void onFailure(String error);

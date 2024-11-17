@@ -1,10 +1,21 @@
 package com.project1.toystoreapp.Activities;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,21 +33,26 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 import com.project1.toystoreapp.API_end_points.LoaiSPEndpoint;
 import com.project1.toystoreapp.API_end_points.SanPhamEndpoint;
 import com.project1.toystoreapp.API_end_points.ThuongHieuEndpoint;
 import com.project1.toystoreapp.Classes.CloudinaryUpload;
 import com.project1.toystoreapp.Classes.ImagePicker;
 import com.project1.toystoreapp.Classes.RequestPermission;
+import com.project1.toystoreapp.databinding.ActivityAdminScreenBinding;
 import com.project1.toystoreapp.model.ThuongHieu;
 import com.project1.toystoreapp.R;
-import com.project1.toystoreapp.databinding.ActivityAdminScreenBinding;
+
 import com.project1.toystoreapp.layout.AdminQuanLyThuongHieu_fg;
 import com.project1.toystoreapp.layout.Admin_QuanLy_Loai_SPCon_fg;
 import com.project1.toystoreapp.layout.Admin_QuanLy_SP_fg;
@@ -44,6 +60,7 @@ import com.project1.toystoreapp.layout.Admin_QuanLy_all_fg;
 import com.project1.toystoreapp.layout.Admin_Quanly_Loai_SP_fg;
 import com.project1.toystoreapp.model.LoaiSP;
 import com.project1.toystoreapp.model.SanPham;
+import com.project1.toystoreapp.model.User;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -53,10 +70,13 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class Admin_screen extends AppCompatActivity {
     ImagePicker imagePicker;
     private ActivityAdminScreenBinding binding;
+    User account = new User();
 
     @Override
     protected void onResume() {
@@ -78,8 +98,7 @@ public class Admin_screen extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fg =getSupportFragmentManager().findFragmentById(R.id.frameLayout);
                 if(item.getItemId()==R.id.home){
-                    setFragment(new Admin_QuanLy_all_fg(),false);
-                    getSupportFragmentManager().popBackStack();
+                    getOnBackPressedDispatcher().onBackPressed();
                 }else if (item.getItemId()==R.id.search){
                     if(fg instanceof Admin_Quanly_Loai_SP_fg){
                         Toast.makeText(Admin_screen.this, "searrchq", Toast.LENGTH_SHORT).show();
@@ -90,7 +109,23 @@ public class Admin_screen extends AppCompatActivity {
                 return true;
             }
         });
+        binding.navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId()==R.id.logout){
+                    SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.apply();
+                    Intent intent = new Intent(Admin_screen.this,Login.class);
+                    startActivity(intent);
+                    finish();
+                }
+                return false;
+            }
+        });
     }
+
     public void setFragment(Fragment fg,boolean addtostack){
             FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frameLayout,fg);
@@ -115,6 +150,8 @@ public class Admin_screen extends AppCompatActivity {
         binding.add.show();
         binding.bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
         Fragment curr = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+        Drawable drawable = ContextCompat.getDrawable(this,R.drawable.baseline_add_24);
+        binding.add.setImageDrawable(drawable);
         if(curr instanceof Admin_QuanLy_all_fg){
             setupLayoutTrangChu();
         }else if (curr instanceof Admin_Quanly_Loai_SP_fg){
@@ -159,7 +196,16 @@ public class Admin_screen extends AppCompatActivity {
         binding.bottomNav.getMenu().clear();
         binding.bottomNav.inflateMenu(R.menu.bottom_admin_menu2);
         ///đẻ đây tí làm
-        binding.add.setOnClickListener(null);
+
+        Drawable drawable = ContextCompat.getDrawable(this,R.drawable.baseline_account_circle_24);
+        binding.add.setImageDrawable(drawable);
+        binding.add.setOnClickListener(v -> {
+            if (binding.main.isDrawerOpen(GravityCompat.END)) {
+                binding.main.closeDrawer(GravityCompat.END); // Đóng NavigationView
+            } else {
+                binding.main.openDrawer(GravityCompat.END); // Mở NavigationView
+            }
+        });
     }
 
 
@@ -180,7 +226,13 @@ public class Admin_screen extends AppCompatActivity {
         btnsua.setOnClickListener(v1 -> {
             String getten=edtTenLSP.getText().toString();
             if(getten.trim().equals("")){
-                Toast.makeText(Admin_screen.this, "Vui lòng nhập thông tin", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Thông tin không hợ lệ!",
+                        "Vui lòng nhập thông tin!",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
             }
             else {
                 LoaiSPEndpoint loaiSPEndpoint = new LoaiSPEndpoint();
@@ -189,13 +241,31 @@ public class Admin_screen extends AppCompatActivity {
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if(response.isSuccessful()){
                             fragment.refresh();
-                            Toast.makeText(Admin_screen.this, "Đã thêm", Toast.LENGTH_SHORT).show();
+                            MotionToast.Companion.createToast(Admin_screen.this,
+                                    "Đã thêm!",
+                                    "Đã thêm thành công!",
+                                    MotionToastStyle.SUCCESS,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.SHORT_DURATION,
+                                    ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                             dialog.dismiss();
                         }else {
                             if(response.code()==409){
-                                Toast.makeText(Admin_screen.this, "Thêm thất bại, đã tồn tại", Toast.LENGTH_SHORT).show();
+                                MotionToast.Companion.createToast(Admin_screen.this,
+                                        "Thêm thất bại!",
+                                        "Tên đã tồn tại",
+                                        MotionToastStyle.WARNING,
+                                        MotionToast.GRAVITY_BOTTOM,
+                                        MotionToast.SHORT_DURATION,
+                                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                             }else {
-                                Toast.makeText(Admin_screen.this, "Thêm thất bại", Toast.LENGTH_SHORT).show();
+                                MotionToast.Companion.createToast(Admin_screen.this,
+                                        "Thêm thất bại!",
+                                        "Có lỗi xảy ra",
+                                        MotionToastStyle.ERROR,
+                                        MotionToast.GRAVITY_BOTTOM,
+                                        MotionToast.SHORT_DURATION,
+                                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                             }
 
                         }
@@ -203,7 +273,13 @@ public class Admin_screen extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(Admin_screen.this, "Thêm thất bại, vui lòng kiểm tra kết nối", Toast.LENGTH_SHORT).show();
+                        MotionToast.Companion.createToast(Admin_screen.this,
+                                "Thêm thất bại!",
+                                "Không thể kết nối với máy chủ",
+                                MotionToastStyle.NO_INTERNET,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.SHORT_DURATION,
+                                ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                     }
                 });
 
@@ -218,6 +294,7 @@ public class Admin_screen extends AppCompatActivity {
     }
     private void createThemTHDialog(AdminQuanLyThuongHieu_fg fragment) {
         View v = LayoutInflater.from(this).inflate(R.layout.add_thuong_hieu_dialog,null);
+
         AppCompatButton btnsua=v.findViewById(R.id.btnsua);
         AppCompatButton btnhuy=v.findViewById(R.id.btnhuy);
         ImageView im= v.findViewById(R.id.anh);
@@ -229,6 +306,7 @@ public class Admin_screen extends AppCompatActivity {
         builder.setView(v);
         AlertDialog dialog=builder.create();
         dialog.getWindow().setDimAmount(0.8f);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.show();
 
@@ -254,12 +332,24 @@ public class Admin_screen extends AppCompatActivity {
         btnsua.setOnClickListener(v1 -> {
             ///kiểm tra nhập chưa
             if(edtTenThuongHieu.getText().toString().trim().equals("")){
-                Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Thông tin thiếu!",
+                        "Vui lòng nhập đủ thông tin.",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 return;
             }
             ///kiểm tra chọn ảnh chưa
             if(uri1[0]==null){
-                Toast.makeText(this, "Vui lòng chọn ảnh", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Thông tin thiếu!",
+                        "Vui lòng chọn ảnh.",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 return;
             }
             ///bắt đầu upload
@@ -268,26 +358,51 @@ public class Admin_screen extends AppCompatActivity {
             thuongHieuEndpoint.createThuongHieu(edtTenThuongHieu.getText().toString().trim(), uri1[0], this, new ThuongHieuEndpoint.CreateThuongHieuCallBack() {
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(Admin_screen.this, "Đã thêm thành công", Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast(Admin_screen.this,
+                            "Thành công!",
+                            "Đã thêm thành công.",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                     progressBar.setVisibility(View.GONE);
                     dialog.dismiss();
                     fragment.resetData();
                 }
                 @Override
                 public void onLoi(String message) {
+                    MotionToast.Companion.createToast(Admin_screen.this,
+                            "Thất bại!",
+                            "Thêm thất bại "+message,
+                            MotionToastStyle.ERROR,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                     Toast.makeText(Admin_screen.this, "Thêm thất bại. "+ message, Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                     dialog.dismiss();
                 }
                 @Override
                 public void onTrungTen() {
-                    Toast.makeText(Admin_screen.this, "Tên đã tồn tại", Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast(Admin_screen.this,
+                            "Thất bại!",
+                            "Tên đã tồn tại",
+                            MotionToastStyle.WARNING,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                     progressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onSave() {
-                    Toast.makeText(Admin_screen.this, "Đang lưu", Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast(Admin_screen.this,
+                            "Đang lưu",
+                            "",
+                            MotionToastStyle.INFO,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 }
             });
 
@@ -357,18 +472,37 @@ public class Admin_screen extends AppCompatActivity {
 
         add.setOnClickListener(v1 -> {
             if(txttensanpham.getText().toString().trim().equals("")){
-                Toast.makeText(this, "Vui lòng điền tên sản phẩm", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Thiếu thông tin!",
+                        "Vui lòng điền tên sản phẩm!",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
+
                 txttensanpham.requestFocus();
                 return;
             }
             if(txtgia.getText().toString().trim().equals("")){
-                Toast.makeText(this, "Vui lòng điền nhập giá", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Thiếu thông tin!",
+                        "Vui lòng điền giá sản phẩm!",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 txtgia.requestFocus();
                 return;
             }
             if(txtmota.getText().toString().trim().equals("")){
                 txtmota.requestFocus();
-                Toast.makeText(this, "Vui lòng nhập mô tả", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Thiếu thông tin!",
+                        "Vui lòng điền mô tả!",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
 
             }
             String regex = "^[1-9][0-9]*$";
@@ -376,12 +510,24 @@ public class Admin_screen extends AppCompatActivity {
             Matcher matcher = pattern.matcher(txtgia.getText().toString().trim());
             if(!matcher.matches()){
                 txtgia.requestFocus();
-                Toast.makeText(this, "Vui lòng nhập đúng giá", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Nhập sai!",
+                        "Giá tiền không hợp lệ!",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 return;
             }
 
             if(uris[0]==null){
-                Toast.makeText(this, "Vui lòng chọn ảnh cho sản phẩm", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Thiếu thông tin!",
+                        "Vui lòng chọn ảnh cho sản phẩm.",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 return;
             }
             String[] urls={null};
@@ -406,7 +552,13 @@ public class Admin_screen extends AppCompatActivity {
 
                 @Override
                 public void onUploadFailed() {
-                    Toast.makeText(Admin_screen.this, "Đã xảy ra vấn đề, vui lòng kiểm tra kết nối", Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast(Admin_screen.this,
+                            "Lỗi!",
+                            "Không thể kết nối đến máy chủ",
+                            MotionToastStyle.ERROR,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 }
             });
 
@@ -418,7 +570,14 @@ public class Admin_screen extends AppCompatActivity {
         sanPhamEndpoint.addSanPham(sanPham, new SanPhamEndpoint.CreateSanPhamCallback() {
             @Override
             public void onSuccess() {
-                Toast.makeText(Admin_screen.this, "Đã lưu thành công", Toast.LENGTH_SHORT).show();
+
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Thành công!",
+                        "Đã lưu thành công",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 fragment.resetLayout();
                 progressBar.setVisibility(View.GONE);
                 dialog.dismiss();
@@ -432,7 +591,13 @@ public class Admin_screen extends AppCompatActivity {
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(Admin_screen.this, "Có lỗi xảy ra "+message, Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_screen.this,
+                        "Lỗi!",
+                        message,
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(Admin_screen.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 progressBar.setVisibility(View.GONE);
             }
         });

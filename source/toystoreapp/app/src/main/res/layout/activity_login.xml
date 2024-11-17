@@ -9,87 +9,156 @@
     android:layout_height="match_parent"
     android:foregroundGravity="fill"
     >
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng nhập"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:fontFamily="sans-serif-condensed-medium"/>
 
-    <LinearLayout
-
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tkwrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
-            android:hint="Số điện thoại"
-            app:counterEnabled="true"
-            app:counterMaxLength="10"
-            app:helperText="nhập"
-            app:startIconDrawable="@drawable/baseline_account_circle_24"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/taikhoan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/mkcontainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Mật khẩu"
-            app:counterEnabled="true"
-            app:counterMaxLength="10"
-            app:helperText="nhập"
-            app:endIconMode="password_toggle"
-            app:startIconDrawable="@drawable/baseline_lock_24"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/matkhau"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnlogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="20dp"
-
-            android:text="Đăng nhập" />
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSignup"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Đăng Ký" />
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnForgotPW"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Đăng nhập" />
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="230dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="700dp"
+                android:background="@drawable/top_corner"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="24dp"
+                    android:paddingTop="60dp">
+
+                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                        android:id="@+id/tkwrapper"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:layout_marginTop="80dp"-->
+                    <!--                        android:hint="Số điện thoại"-->
+                    <!--                        app:counterEnabled="true"-->
+                    <!--                        app:counterMaxLength="10"-->
+                    <!--                        app:helperText="nhập"-->
+                    <!--                        app:startIconDrawable="@drawable/baseline_account_circle_24">-->
+
+                    <!--                        <com.google.android.material.textfield.TextInputEditText-->
+                    <!--                            android:id="@+id/taikhoan"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content" />-->
+                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tkwrapper"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="Số điện thoại"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10"
+
+                        app:helperText="*Bắt buộc"
+                        app:startIconDrawable="@drawable/baseline_account_circle_24"
+                        >
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/taikhoan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:background="@drawable/top_corner_n_all"
+                            android:backgroundTint="@color/white"
+                            android:paddingLeft="30dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/mkcontainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="Mật khẩu"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10"
+                        app:endIconMode="password_toggle"
+                        app:helperText="*Bắt buộc"
+                        app:startIconDrawable="@drawable/baseline_lock_24">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:background="@drawable/white_rounded"
+                            android:id="@+id/matkhau"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lưu thông tin"
+                        android:textColor="@color/white"
+                        style="@style/CustomRadioButtonStyle"
+                        android:id="@+id/rememberme"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnlogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/green_lv2"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/white_rounded"
+                        android:text="Đăng nhập" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnForgotPW"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/red_lv2"
+                            android:layout_weight="1"
+                            android:text="Quên mật khẩu"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/white_rounded"
+                            />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_marginLeft="5dp"
+                            android:id="@+id/btnSignup"
+                            android:backgroundTint="@color/blue_green_lv2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Đăng ký"
+                            android:background="@drawable/white_rounded"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
         </LinearLayout>
 
-
-    </LinearLayout>
-
+    </ScrollView>
     <ProgressBar
         android:layout_gravity="center"
         android:id="@+id/progress"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
 
 </FrameLayout>

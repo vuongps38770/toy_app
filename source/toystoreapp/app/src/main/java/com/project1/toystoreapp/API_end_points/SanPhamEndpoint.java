@@ -81,6 +81,55 @@ public class SanPhamEndpoint extends BaseAPIEndpoint{
             }
         });
     }
+
+    public void getAllsanphamNotHaveLoaiSPconID(String SPConID,Consumer<List<SanPham>> list){
+        sanPhamService.getAllsanphamNotHaveLoaiSPconID(SPConID).enqueue(new Callback<List<SanPham>>() {
+            @Override
+            public void onResponse(Call<List<SanPham>> call, Response<List<SanPham>> response) {
+                if(response.isSuccessful()){
+                    list.accept(response.body());
+                    Log.e("onResponse: ",response.code()+""+response.body() );
+                }else {
+                    list.accept(Collections.emptyList());
+                    try {
+                        Log.e("getAllsanphamNotHaveLoaiSPconID:NOT IN 2xx range",response.code()+response.errorBody().string() );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SanPham>> call, Throwable t) {
+                list.accept(Collections.emptyList());
+                Log.e("getAllsanphamNotHaveLoaiSPconID onFailure: ", t.getMessage());
+            }
+        });
+    }
+    public void getAllsanphamByLoaiSPconID(String SPConID,Consumer<List<SanPham>> list){
+        sanPhamService.getAllsanphamByLoaiSPconID(SPConID).enqueue(new Callback<List<SanPham>>() {
+            @Override
+            public void onResponse(Call<List<SanPham>> call, Response<List<SanPham>> response) {
+                if(response.isSuccessful()){
+                    list.accept(response.body());
+                    Log.e("onResponse: ",response.code()+""+response.raw() );
+                }else {
+                    list.accept(Collections.emptyList());
+                    try {
+                        Log.e("getAllsanphamByLoaiSPconID:NOT IN 2xx range",response.code()+response.errorBody().string() );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SanPham>> call, Throwable t) {
+                list.accept(Collections.emptyList());
+                Log.e("getAllsanphamByLoaiSPconID onFailure: ", t.getMessage());
+            }
+        });
+    }
     public interface CreateSanPhamCallback{
         void onSuccess();
         void onTrungten();

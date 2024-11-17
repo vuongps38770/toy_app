@@ -5,5 +5,6 @@ const router = express.Router()
 router.get("/thuonghieu/getall",ThuongHieuController.getAllThuongHieu)
 router.post("/thuonghieu/create",ThuongHieuController.createThuongHieu)
 router.post("/thuonghieu/checkKhongTonTai",ThuongHieuController.checkKhongTonTai)
+router.put("/thuonghieu/edit",ThuongHieuController.suaThuongHieu)
 
 module.exports= router

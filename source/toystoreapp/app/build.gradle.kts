@@ -40,7 +40,10 @@ android {
 }
 
 dependencies {
+
+
     implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation ("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
     implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
     implementation ("io.reactivex.rxjava3:rxjava:3.1.5")
@@ -53,6 +56,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation ("com.cloudinary:cloudinary-android:3.0.2")
     implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation ("com.github.Spikeysanju:MotionToast:1.4")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

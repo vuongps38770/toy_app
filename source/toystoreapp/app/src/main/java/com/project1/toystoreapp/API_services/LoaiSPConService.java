@@ -29,4 +29,12 @@ public interface LoaiSPConService {
 
     @DELETE("loaispcon/deleteLSPCon/{id}")
     Call<ResponseBody> deleteLSPCon(@Path("id") String id);
+
+    @PUT("loaispcon/{loaispconID}/addSanPham/{sanphamID}")
+    Call<ResponseBody> addSanPham(@Path("loaispconID") String loaispconID,@Path("sanphamID") String sanphamID);
+
+    @PUT("loaispcon/{loaispconID}/removeSanPham/{sanphamID}")
+    Call<ResponseBody> removeSanPham(@Path("loaispconID") String loaispconID,@Path("sanphamID") String sanphamID);
+
+
 }

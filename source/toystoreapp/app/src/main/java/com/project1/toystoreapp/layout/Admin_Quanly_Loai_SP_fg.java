@@ -3,6 +3,7 @@
     import android.os.Bundle;
     import androidx.annotation.NonNull;
     import androidx.annotation.Nullable;
+    import androidx.core.content.res.ResourcesCompat;
     import androidx.fragment.app.Fragment;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
@@ -14,12 +15,16 @@
     import android.widget.Toast;
 
     import com.project1.toystoreapp.API_end_points.LoaiSPEndpoint;
+    import com.project1.toystoreapp.Activities.Admin_screen;
     import com.project1.toystoreapp.R;
     import com.project1.toystoreapp.RecyclerAdapters.Admin_QL_LSP_adapter;
     import com.project1.toystoreapp.model.LoaiSP;
 
     import java.util.ArrayList;
     import java.util.List;
+
+    import www.sanju.motiontoast.MotionToast;
+    import www.sanju.motiontoast.MotionToastStyle;
 
 
     /**
@@ -95,8 +100,14 @@
                     });
                 } else {
                     getActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(), "No data found", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
+                            MotionToast.Companion.createToast(getActivity(),
+                                    "",
+                                    "No data found",
+                                    MotionToastStyle.WARNING,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.SHORT_DURATION,
+                                    ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
+                            progressBar.setVisibility(View.GONE);
                     });
                 }
             });

@@ -4,12 +4,23 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:fontFamily">serif</item>
+        <item name="colorPrimary">@color/yellow_main</item>
+        <item name="colorControlActivated">@color/yellow_main</item> <!-- Màu khi bật -->
+        <item name="colorControlNormal">@color/black</item>    <!-- Màu khi tắt -->
+        <item name="colorSwitchThumbNormal">@color/yellow_main</item>
 
+    </style>
+    <style name="CustomRadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="buttonTint">@color/radio_custom</item>
     </style>
     <style name="ShapeAppearanceOverlay.App.CornerSize16" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
     </style>
-
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_in_animation</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out_animation</item>
+    </style>
     <style name="Theme.Toystoreapp" parent="Base.Theme.Toystoreapp" />
+
 </resources>

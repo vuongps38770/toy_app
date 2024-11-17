@@ -3,12 +3,15 @@ package com.project1.toystoreapp.layout;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -42,6 +45,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -149,6 +154,7 @@ public class AdminQuanLyThuongHieu_fg extends Fragment {
         builder.setView(v);
         AlertDialog dialog=builder.create();
         dialog.getWindow().setDimAmount(0.8f);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         dialog.show();
         Glide.with(im)
@@ -181,12 +187,24 @@ public class AdminQuanLyThuongHieu_fg extends Fragment {
         btnsua.setOnClickListener(v1 -> {
             ///Trường tên trống+bảo trì thêm các trường khác
             if(edtTenThuongHieu.getText().toString().trim().equals("")){
-                Toast.makeText(getContext(), "Thông tin không được bỏ trống", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(getActivity(),
+                        "Thiếu thông tin!",
+                        "Thông tin không được bỏ trống.",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
                 return;
             }
             ///Không thêm thông tin
             if(uriholder[0]==null&&edtTenThuongHieu.getText().toString().trim().equals(thuongHieu.getTenthuonghieu())){
-                Toast.makeText(getContext(), "Vui lòng chọn thông tin muốn chỉnh sửa!", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(getActivity(),
+                        "Thiếu thông tin!",
+                        "Chưa có thông tin nào được chỉnh sửa.",
+                        MotionToastStyle.WARNING,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
                 return;
             }
             ///sửa ít nhất 1 thông tin
@@ -202,13 +220,19 @@ public class AdminQuanLyThuongHieu_fg extends Fragment {
                     @Override
                     public void onUploadSuccess(String imageUrl) {
                         thuongHieu.setTenthuonghieu(edtTenThuongHieu.getText().toString());
+                        thuongHieu.setUrlthumbnail(imageUrl.replaceFirst("http://","https://"));
                         addToDb(thuongHieu,pos,thuongHieuHolder,adapter,dialog,progressBar);
                     }
 
                     @Override
                     public void onUploadFailed() {
-                        Toast.makeText(getContext(), "Có vấn đề xảy ra trong quá trình upload hình ảnh", Toast.LENGTH_SHORT).show();
-
+                        MotionToast.Companion.createToast(getActivity(),
+                                "Lỗi!",
+                                "Có vấn đề xảy ra trong quá trình upload hình ảnh.",
+                                MotionToastStyle.ERROR,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.SHORT_DURATION,
+                                ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
                     }
                 });
             }
@@ -222,18 +246,36 @@ public class AdminQuanLyThuongHieu_fg extends Fragment {
                 if(response.isSuccessful()){
                     thuongHieuHolder[0]=response.body();
                     adapter.notifyItemChanged(pos,thuongHieu);
-                    Toast.makeText(getContext(), "Sửa thành công!", Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast(getActivity(),
+                            "Thành công!",
+                            "Đã sửa thành công.",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
                     progress.setVisibility(View.GONE);
                     dialog.dismiss();
 
                 }else {
-                    Toast.makeText(getContext(), "Sửa thất bại", Toast.LENGTH_SHORT).show();
+                    MotionToast.Companion.createToast(getActivity(),
+                            "Lỗi!",
+                            "Có vấn đề xảy ra, sửa thất bại.",
+                            MotionToastStyle.ERROR,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.SHORT_DURATION,
+                            ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
                     progress.setVisibility(View.GONE);
                 }
             }
             @Override
             public void onFailure(Call<ThuongHieu> call, Throwable t) {
-                Toast.makeText(getContext(), "Có lỗi xảy ra", Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(getActivity(),
+                        "Lỗi!",
+                        "Không thể kết nối với máy chủ.",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.SHORT_DURATION,
+                        ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
                 progress.setVisibility(View.GONE);
 
             }
