@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -77,7 +78,7 @@ public class Admin_screen extends AppCompatActivity {
     ImagePicker imagePicker;
     private ActivityAdminScreenBinding binding;
     User account = new User();
-
+    private String accountKey="account";
     @Override
     protected void onResume() {
         super.onResume();
@@ -89,7 +90,18 @@ public class Admin_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         imagePicker = new ImagePicker(this);
         binding = ActivityAdminScreenBinding.inflate(getLayoutInflater());
+        Intent getaccount = getIntent();
+        account =(User) getaccount.getSerializableExtra(accountKey);
+        if(account==null) return;
+
         setContentView(binding.getRoot());
+        View headerdraw = binding.navigation.getHeaderView(0);
+        TextView username = headerdraw.findViewById(R.id.name);
+        if(username!=null){
+            String[] name= account.getUsername().split(" ");
+            username.setText(name[name.length-1]);
+        }
+
         Fragment fragment = new Admin_QuanLy_all_fg();
         setFragment(fragment,false);
         getSupportFragmentManager().addOnBackStackChangedListener(this::settupCurrentFG);
@@ -113,7 +125,7 @@ public class Admin_screen extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId()==R.id.logout){
-                    SharedPreferences sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+                    SharedPreferences sharedPreferences = getSharedPreferences(accountKey, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.clear();
                     editor.apply();

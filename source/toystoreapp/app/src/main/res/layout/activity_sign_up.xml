@@ -50,6 +50,8 @@
                         android:hint="Họ tên"
                         app:helperText="*Bắt buộc"
                         app:startIconDrawable="@drawable/baseline_account_circle_24"
+                        app:boxStrokeColor="@color/gray_main"
+                        app:hintTextColor="@color/gray_main"
                         >
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -70,7 +72,9 @@
                         android:hint="Số điện thoại"
                         app:counterEnabled="true"
                         app:helperText="*Bắt buộc"
-                        app:startIconDrawable="@drawable/baseline_phone_24">
+                        app:startIconDrawable="@drawable/baseline_phone_24"
+                        app:boxStrokeColor="@color/gray_main"
+                        app:hintTextColor="@color/gray_main">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:background="@drawable/white_rounded"
@@ -86,7 +90,9 @@
                         android:layout_marginTop="10dp"
                         android:hint="Email"
                         app:helperText="*Bắt buộc"
-                        app:startIconDrawable="@drawable/baseline_email_24">
+                        app:startIconDrawable="@drawable/baseline_email_24"
+                        app:boxStrokeColor="@color/gray_main"
+                        app:hintTextColor="@color/gray_main">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:background="@drawable/white_rounded"
@@ -104,7 +110,9 @@
                         app:counterEnabled="true"
                         app:endIconMode="password_toggle"
                         app:helperText="*Bắt buộc"
-                        app:startIconDrawable="@drawable/baseline_lock_24">
+                        app:startIconDrawable="@drawable/baseline_lock_24"
+                        app:boxStrokeColor="@color/gray_main"
+                        app:hintTextColor="@color/gray_main">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:background="@drawable/white_rounded"
@@ -122,7 +130,9 @@
                         app:counterEnabled="true"
                         app:endIconMode="password_toggle"
                         app:helperText="*Bắt buộc"
-                        app:startIconDrawable="@drawable/baseline_lock_24">
+                        app:startIconDrawable="@drawable/baseline_lock_24"
+                        app:boxStrokeColor="@color/gray_main"
+                        app:hintTextColor="@color/gray_main">
 
                         <com.google.android.material.textfield.TextInputEditText
                             app:endIconMode="none"
