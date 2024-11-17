@@ -13,7 +13,6 @@ const loaispcon= new Schema({
     }],
     tenloai:{
         type:String,
-        unique:true,   
         required:true, 
     },
     isActivate:{

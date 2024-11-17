@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".layout.Admin_QuanLy_SP_fg">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".layout.Admin_QuanLy_SP_fg"
+    android:paddingHorizontal="20dp">
+    <LinearLayout
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:focusable="true">
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:queryHint="Tìm kiếm..."
+            android:visibility="gone"
+            android:id="@+id/searchbar" />
+        <!-- TODO: Update blank fragment layout -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerview"
+            />
+    </LinearLayout>
 
-</FrameLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

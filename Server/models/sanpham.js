@@ -31,6 +31,10 @@ const sanpham= new Schema({
     isInMainScreen:{
         type:Number,
         required:true,
+    },
+    urlanh:{
+        type:String,
+        required:true
     }
 },{
     collection:'sanpham',

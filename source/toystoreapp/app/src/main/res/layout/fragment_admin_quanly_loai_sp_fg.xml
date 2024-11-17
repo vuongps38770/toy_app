@@ -4,8 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".layout.Admin_Quanly_Loai_SP_fg"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:paddingHorizontal="20dp"
+>
     <androidx.recyclerview.widget.RecyclerView
+        android:paddingTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyclerview"/>

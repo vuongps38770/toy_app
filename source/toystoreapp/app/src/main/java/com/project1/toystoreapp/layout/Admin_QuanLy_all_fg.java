@@ -1,5 +1,9 @@
 package com.project1.toystoreapp.layout;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +59,7 @@ public class Admin_QuanLy_all_fg extends Fragment {
         return fragment;
     }
     FragmentAdminQuanlyAllFgBinding binding;
+    Handler handler = new Handler();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +69,41 @@ public class Admin_QuanLy_all_fg extends Fragment {
         }
 
     }
+    String[] texts = {"Chào mừng!", "Xem thống kê...", "Duyệt đơn hàng..."};
+    int currentIndex = 0;
+    private void setTitle(){
+        animateTextView();
+        Handler handler = new Handler();
+        Runnable animationRunnable = new Runnable() {
+            @Override
+            public void run() {
+                animateTextView();
+                handler.postDelayed(this, 5000);
+            }
+        };
+        handler.post(animationRunnable);
+    }
+    private void animateTextView() {
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(binding.title, "alpha", 1f, 0f);
+        ObjectAnimator moveDown = ObjectAnimator.ofFloat(binding.title, "translationY", 0f, 100f);
+        AnimatorSet setDown = new AnimatorSet();
+        setDown.playTogether(fadeOut, moveDown);
+        setDown.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                binding.title.setText(texts[currentIndex]);
+                currentIndex = (currentIndex + 1) % texts.length;
+                ObjectAnimator fadeIn = ObjectAnimator.ofFloat(binding.title, "alpha", 0f, 1f);
+                ObjectAnimator moveUp = ObjectAnimator.ofFloat(binding.title, "translationY", 100f, 0f);
 
+                AnimatorSet setUp = new AnimatorSet();
+                setUp.playTogether(fadeIn, moveUp);
+                setUp.start();
+            }
+        });
+
+        setDown.start();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,7 +113,16 @@ public class Admin_QuanLy_all_fg extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        binding.swipe.setOnRefreshListener(() -> {
+            Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.swipe);
+            if (currentFragment != null) {
+                getActivity().recreate();
+            }
+            binding.swipe.setRefreshing(false);
+        });
+
         super.onViewCreated(view, savedInstanceState);
+        handler.postDelayed(()->setTitle(),5000);
         binding.qlsp.setOnClickListener(v -> {
             ((Admin_screen) getActivity()).setFragment(new Admin_Quanly_Loai_SP_fg(),true);
         });
@@ -90,5 +139,6 @@ public class Admin_QuanLy_all_fg extends Fragment {
         binding.qlysp.setOnClickListener(v -> {
             ((Admin_screen) getActivity()).setFragment(new Admin_QuanLy_SP_fg(),true);
         });
+
     }
 }

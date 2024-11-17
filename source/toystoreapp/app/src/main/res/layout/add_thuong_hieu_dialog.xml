@@ -1,48 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
+    android:layout_width="330dp"
     android:layout_height="wrap_content"
-    android:padding="20dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="16dp"
+
     >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <EditText
-            android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        >
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="Nhập tên thương hiệu"
-            android:id="@+id/txtTenThuongHieu"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            />
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:background="@drawable/baseline_add_24"
-            android:id="@+id/anh"
-            />
+            android:orientation="horizontal">
+            <EditText
+                android:layout_marginTop="0dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Nhập tên thương hiệu"
+                android:id="@+id/txtTenThuongHieu"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                />
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:src="@drawable/baseline_add_10"
+                android:id="@+id/anh"
+                android:scaleType="centerCrop"
+                android:clipToOutline="true"
+                android:layout_gravity="center"
+                android:background="@drawable/conrner_radius_16"
+                android:backgroundTint="@color/gray"
+                />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="bottom|right"
-            android:layout_marginTop="70dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginTop="20dp"
+>
             <androidx.appcompat.widget.AppCompatButton
+
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:id="@+id/btnhuy"
-                android:text="huỷ"/>
+                android:text="huỷ"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/button_bg_main_round"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:id="@+id/btnsua"
+                android:background="@drawable/button_bg_main_round"
                 android:text="Sửa"/>
 
         </LinearLayout>
