@@ -92,7 +92,45 @@ public class UserEndpoint extends BaseAPIEndpoint{
             }
         });
     }
+    public void findAccountByEmail(String email, FindUserByEmailListener callback){
+        userService.findUserByEmail(email).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()){
+                    callback.onSucsess(response.body());
+                }else {
+                    if(response.code()==404){
+                        callback.onNotFound();
+                    }else {
+                        callback.onFailure();
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                callback.onErrorr();
+            }
+        });
+    }
+    public void changePW(User user, ChangePWListener callBack){
+        user.setPassword(PasswordHasher.hashPassword(user.getPassword()));
+        userService.updateUser(user).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()){
+                    callBack.onSucsess();
+                }else {
+                    callBack.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                callBack.onErrorr();
+            }
+        });
+    }
 
    public interface VaildteInfolistener{
         void onSucsess();
@@ -105,6 +143,17 @@ public class UserEndpoint extends BaseAPIEndpoint{
         void onErrorr();
     }
     public interface AddUserListener{
+        void onSucsess();
+        void onFailure();
+        void onErrorr();
+    }
+    public interface FindUserByEmailListener{
+        void onSucsess(User user);
+        void onFailure();
+        void onErrorr();
+        void onNotFound();
+    }
+    public interface ChangePWListener{
         void onSucsess();
         void onFailure();
         void onErrorr();

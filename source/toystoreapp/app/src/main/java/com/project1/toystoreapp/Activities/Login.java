@@ -37,17 +37,23 @@ import retrofit2.Response;
 public class Login extends AppCompatActivity {
     private ActivityLoginBinding binding;
     SharedPreferences sharedPreferences ;
+    private String accountKey="account";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String savedaccount = sharedPreferences.getString("account",null);
+        sharedPreferences = getSharedPreferences(accountKey, Context.MODE_PRIVATE);
+        String savedaccount = sharedPreferences.getString(accountKey,null);
         if(savedaccount!=null){
             Gson gson = new Gson();
             User user =gson.fromJson(savedaccount,User.class);
             if(user.getRole()==1){
                 Intent intent = new Intent(Login.this,Admin_screen.class);
-                intent.putExtra("account",user);
+                intent.putExtra(accountKey,user);
+                startActivity(intent);
+                finish();
+            }else if(user.getRole()==0){
+                Intent intent = new Intent(Login.this,User_main.class);
+                intent.putExtra(accountKey,user);
                 startActivity(intent);
                 finish();
             }
@@ -56,12 +62,18 @@ public class Login extends AppCompatActivity {
         binding=ActivityLoginBinding.inflate(getLayoutInflater());
         binding.progress.setVisibility(View.GONE);
         setContentView(binding.getRoot());
+        binding.btnForgotPW.setOnClickListener(v -> {
+            Intent i = new Intent(Login.this,ForgotPW.class);
+            startActivity(i);
+        });
         binding.btnSignup.setOnClickListener(v -> {
             Intent intent = new Intent(Login.this, SignUp.class);
             startActivity(intent);
         });
+        ///sample----------------------------------------------------------------------------------------
         binding.taikhoan.setText("083764312");
         binding.matkhau.setText("vuong123");
+        ///sample----------------------------------------------------------------------------------------
         binding.btnlogin.setOnClickListener(v -> {
             if(binding.taikhoan.getText().toString().trim().equals("")||binding.matkhau.getText().toString().trim().equals("")){
                 Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
@@ -79,12 +91,17 @@ public class Login extends AppCompatActivity {
                             Gson gson = new Gson();
                             String accountinfo=gson.toJson(user);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("account",accountinfo);
+                            editor.putString(accountKey,accountinfo);
                             editor.apply();
                         }
                         if(user.getRole()==1){
                             Intent intent = new Intent(Login.this,Admin_screen.class);
-                            intent.putExtra("account",user);
+                            intent.putExtra(accountKey,user);
+                            startActivity(intent);
+                            finish();
+                        } else if (user.getRole()==0) {
+                            Intent intent = new Intent(Login.this,User_main.class);
+                            intent.putExtra(accountKey,user);
                             startActivity(intent);
                             finish();
                         }
@@ -107,7 +124,7 @@ public class Login extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(Call<User> call, Throwable t) {
-                    Toast.makeText(Login.this, "Vui lòng kiểm tra kết nối", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Không thể kết nối với máy chủ", Toast.LENGTH_SHORT).show();
                     binding.progress.setVisibility(View.GONE);
                 }
             });

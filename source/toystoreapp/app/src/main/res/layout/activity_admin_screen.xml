@@ -36,6 +36,8 @@
             >
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
+                app:itemIconTint="@drawable/bottom_navigation_item_color"
+                app:itemTextColor="@color/white"
                 android:id="@+id/bottomNav"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
