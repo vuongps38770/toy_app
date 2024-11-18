@@ -63,6 +63,7 @@ public class SanPhamEndpoint extends BaseAPIEndpoint{
         body.put("urlanh",sanPham.getUrlanh().replaceFirst("http://","https://"));
         body.put("isActivate",sanPham.getIsActivate());
         body.put("isInMainScreen",sanPham.getIsInMainScreen());
+        body.put("thuonghieu",sanPham.getThuonghieu().getId());
         sanPhamService.editSp(body,sanPham.getId()).enqueue(new Callback<SanPham>() {
             @Override
             public void onResponse(Call<SanPham> call, Response<SanPham> response) {
