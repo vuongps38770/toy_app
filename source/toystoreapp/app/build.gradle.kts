@@ -40,8 +40,6 @@ android {
 }
 
 dependencies {
-
-
     implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation ("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")

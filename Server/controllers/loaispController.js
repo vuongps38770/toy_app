@@ -3,6 +3,7 @@ const Loaisp = require('../models/loaisp')
 const mongoose= require('mongoose')
 const Sanpham = require('../models/sanpham')
 const Loaispcon = require('../models/loaispcon')
+const { populate } = require('../models/users')
 exports.createLoaiSP= async (req,res)=>{
     try {
         const {tenloai} = req.body
@@ -102,16 +103,16 @@ exports.getAllLoaiSPPopulate=async (req,res)=>{
     try {
         const listLoaiSP= await Loaisp.find().populate({
             path: 'listLoaiSPConID', 
-            populate: { path: 'listsanphamID', model: 'sanpham' } 
+            populate: { path: 'listsanphamID', model: 'sanpham',select: '-thuongHieu' } 
         });
-        if(listLoaiSP.length<=0){
-            return res.status(400).json({message: "empty!"})
-        }
         res.status(200).json(listLoaiSP)
     } catch (error) {
         res.status(400).json({message:error.message})
+
     }
 }
+
+
 
 exports.deleteLoaiSP = async (req,res)=>{
     const session = await mongoose.startSession()

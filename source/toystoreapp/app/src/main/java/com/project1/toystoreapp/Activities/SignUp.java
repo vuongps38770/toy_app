@@ -95,7 +95,7 @@ public class SignUp extends AppCompatActivity {
                             binding.matkhau.getText().toString(),
                             binding.sdt.getText().toString(),
                             binding.email.getText().toString(),0);
-            userEndpoint.vaildteInfo(user, new UserEndpoint.VaildteInfolistener() {
+            userEndpoint.vaildteInfo(User.cloneUser(user), new UserEndpoint.VaildteInfolistener() {
                 @Override
                 public void onSucsess() {
                     Intent intent = new Intent(SignUp.this,ValidateCode.class);

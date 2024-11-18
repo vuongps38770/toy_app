@@ -50,7 +50,20 @@ public class ThuongHieuEndpoint extends BaseAPIEndpoint{
             }
         });
     }
+    public void getAllThuongHieuActivated(Consumer<List<ThuongHieu>> list){
+        thuongHieuService.getAllThuongHieuActivated().enqueue(new Callback<List<ThuongHieu>>() {
+            @Override
+            public void onResponse(Call<List<ThuongHieu>> call, Response<List<ThuongHieu>> response) {
+                if(response.isSuccessful()) list.accept(response.body());
+                else list.accept(Collections.emptyList());
+            }
 
+            @Override
+            public void onFailure(Call<List<ThuongHieu>> call, Throwable t) {
+                list.accept(Collections.emptyList());
+            }
+        });
+    }
     public interface CreateThuongHieuCallBack{
         void onSuccess();
         void onLoi(String message);

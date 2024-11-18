@@ -10,6 +10,14 @@ exports.getAllThuongHieu= async (req, res)=>{
     }
 
 }
+exports.getAllThuongHieuActivated= async (req, res)=>{
+    try {
+        const list = await ThuongHieu.find({activated:1});
+        res.status(200).json(list)
+    } catch (error) {
+        res.status(400).json({message:error.message})
+    }
+}
 exports.suaThuongHieu= async (req,res)=>{
     try {
         const thuonghieu = await ThuongHieu.findByIdAndUpdate(req.body._id,req.body,{new:true})
@@ -29,6 +37,7 @@ exports.createThuongHieu = async( req, res)=>{
         if(thuonghieu)
             return res.status(409).json({mesage: "Đã tồn tại"})
         const newThuongHieu=new ThuongHieu(req.body)
+        newThuongHieu.activated=1;
         await newThuongHieu.save()
         res.status(200).json({message:"thêm thành công"})
     } catch (error) {

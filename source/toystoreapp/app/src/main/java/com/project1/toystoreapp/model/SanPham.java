@@ -15,6 +15,7 @@ public class SanPham {
     private long gia;
     private String mota;
     private List<LoaiSPCon> loaiSPCon;
+    
     private ThuongHieu thuonghieu;
     private Integer isActivate;
     private Integer isInMainScreen;

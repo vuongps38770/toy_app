@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.project1.toystoreapp.API_end_points.LoaiSPEndpoint;
 import com.project1.toystoreapp.API_end_points.SanPhamEndpoint;
+import com.project1.toystoreapp.API_end_points.ThuongHieuEndpoint;
 import com.project1.toystoreapp.Activities.Admin_screen;
 import com.project1.toystoreapp.Classes.CloudinaryUpload;
 import com.project1.toystoreapp.Classes.GridSpacingItemDecoration;
@@ -41,6 +43,7 @@ import com.project1.toystoreapp.Classes.RequestPermission;
 import com.project1.toystoreapp.R;
 import com.project1.toystoreapp.RecyclerAdapters.Admin_QL_SP_adapter;
 import com.project1.toystoreapp.databinding.FragmentAdminQuanlySpFgBinding;
+import com.project1.toystoreapp.model.LoaiSP;
 import com.project1.toystoreapp.model.SanPham;
 import com.project1.toystoreapp.model.ThuongHieu;
 
@@ -180,6 +183,22 @@ public class Admin_QuanLy_SP_fg extends Fragment {
         Spinner spnThuonghieu = v.findViewById(R.id.spnThuonghieu);
         Switch swisInMainScreen = v.findViewById(R.id.swisInMainScreen);
         Switch swisisActivate = v.findViewById(R.id.swisisActivate);
+        getActivity().runOnUiThread(()->{
+            ThuongHieuEndpoint thuongHieuEndpoint = new ThuongHieuEndpoint();
+            thuongHieuEndpoint.getAllThuongHieuActivated(list->{
+                if(list.isEmpty()) return;
+                ArrayAdapter<ThuongHieu> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item,list);
+                adapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+                spnThuonghieu.setAdapter(adapter);
+                for (int i = 0;i<list.size();i++){
+                    Log.e("createViewEditSPDialog: ", list.get(i).getId()+"---main "+sanPham.getThuonghieu().getId());
+                    Log.e("createViewEditSPDialog: ", list.get(i).getTenthuonghieu()+"---main "+sanPham.getThuonghieu().getTenthuonghieu());
+                    if(sanPham.getThuonghieu().getId().equals(list.get(i).getId())){
+                        spnThuonghieu.setSelection(i);
+                    }
+                }
+            });
+        });
         swisisActivate.setChecked(sanPham.getIsActivate()==1);
         swisInMainScreen.setChecked(sanPham.getIsInMainScreen()==1);
         swisisActivate.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -195,7 +214,6 @@ public class Admin_QuanLy_SP_fg extends Fragment {
 
         Button add = v.findViewById(R.id.them);
         Button cancel = v.findViewById(R.id.huy);
-        spnThuonghieu.setVisibility(View.GONE);
         ImageView addanh = v.findViewById(R.id.addanh);
         Glide.with(addanh)
                 .load(sanPham.getUrlanh())
@@ -206,6 +224,7 @@ public class Admin_QuanLy_SP_fg extends Fragment {
         txtgia.setText(""+sanPham.getGia());
         txtmota.setText(""+sanPham.getMota());
         txttensanpham.setText(sanPham.getTensanpham());
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(v);
         AlertDialog dialog = builder.create();
@@ -316,17 +335,17 @@ public class Admin_QuanLy_SP_fg extends Fragment {
                     }
                 });
             }else {
-
                 SanPham sanPhamnew = new SanPham(
                         txttensanpham.getText().toString()
                         ,Integer.parseInt(txtgia.getText().toString())
                         ,txtmota.getText().toString()
-                        ,sanPham.getThuonghieu()
+                        ,((ThuongHieu) spnThuonghieu.getSelectedItem())
                         ,swisisActivate.isChecked() ? 1:0
                         ,swisInMainScreen.isChecked()? 1:0
                         ,sanPham.getUrlanh()
                 );
                 sanPhamnew.setId(sanPham.getId());
+                Log.e("createViewEditSPDialog: ",  ((ThuongHieu) spnThuonghieu.getSelectedItem()).getTenthuonghieu());
                 uploadToDB(sanPhamnew,dialog,progressBar,posistion);
             }
 
