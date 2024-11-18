@@ -90,11 +90,13 @@ public class Admin_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         imagePicker = new ImagePicker(this);
         binding = ActivityAdminScreenBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         Intent getaccount = getIntent();
         account =(User) getaccount.getSerializableExtra(accountKey);
         if(account==null) return;
 
-        setContentView(binding.getRoot());
+
         View headerdraw = binding.navigation.getHeaderView(0);
         TextView username = headerdraw.findViewById(R.id.name);
         if(username!=null){
@@ -235,6 +237,7 @@ public class Admin_screen extends AppCompatActivity {
         EditText edtTenLSP= v.findViewById(R.id.txtedtTensp);
         AppCompatButton btnsua=v.findViewById(R.id.btnsua);
         AppCompatButton btnhuy=v.findViewById(R.id.btnhuy);
+        btnsua.setText("Thêm");
         btnsua.setOnClickListener(v1 -> {
             String getten=edtTenLSP.getText().toString();
             if(getten.trim().equals("")){

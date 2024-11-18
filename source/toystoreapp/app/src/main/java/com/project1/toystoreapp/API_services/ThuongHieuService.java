@@ -23,4 +23,7 @@ public interface ThuongHieuService {
     @PUT("thuonghieu/edit")
     Call<ThuongHieu> editThuongHieu(@Body ThuongHieu thuongHieu);
 
+    @GET("thuonghieu/getAllThuongHieuActivated")
+    Call<List<ThuongHieu>> getAllThuongHieuActivated();
+
 }

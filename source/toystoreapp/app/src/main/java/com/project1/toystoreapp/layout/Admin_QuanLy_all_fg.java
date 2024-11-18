@@ -71,12 +71,13 @@ public class Admin_QuanLy_all_fg extends Fragment {
     }
     String[] texts = {"Chào mừng!", "Xem thống kê...", "Duyệt đơn hàng..."};
     int currentIndex = 0;
-    private void setTitle(){
-        animateTextView();
-        Handler handler = new Handler();
-        Runnable animationRunnable = new Runnable() {
+    Runnable animationRunnable;
+
+    private void setTitle() {
+        animationRunnable = new Runnable() {
             @Override
             public void run() {
+                if(!isAdded()) return;
                 animateTextView();
                 handler.postDelayed(this, 5000);
             }
@@ -101,9 +102,33 @@ public class Admin_QuanLy_all_fg extends Fragment {
                 setUp.start();
             }
         });
-
         setDown.start();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (animationRunnable != null) {
+            handler.removeCallbacks(animationRunnable);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (animationRunnable != null) {
+            handler.removeCallbacks(animationRunnable);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (animationRunnable != null) {
+            handler.removeCallbacks(animationRunnable);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -113,14 +138,6 @@ public class Admin_QuanLy_all_fg extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        binding.swipe.setOnRefreshListener(() -> {
-            Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.swipe);
-            if (currentFragment != null) {
-                getActivity().recreate();
-            }
-            binding.swipe.setRefreshing(false);
-        });
-
         super.onViewCreated(view, savedInstanceState);
         handler.postDelayed(()->setTitle(),5000);
         binding.qlsp.setOnClickListener(v -> {

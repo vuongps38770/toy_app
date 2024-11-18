@@ -1,6 +1,7 @@
 package com.project1.toystoreapp.API_services;
 
 import com.project1.toystoreapp.model.LoaiSP;
+import com.project1.toystoreapp.model.LoaiSP_user;
 
 import java.util.List;
 
@@ -35,6 +36,9 @@ public interface LoaiSPService {
 
     @GET("loaisp/getAllLoaiSPPopulate")
     Call<List<LoaiSP>> GetAllLoaiSPPopulate();
+
+    @GET("loaisp/getAllLoaiSPPopulate")
+    Call<List<LoaiSP_user>> GetAllLoaiSPPopulateforUser();
 
     @DELETE("loaisp/deleteLoaiSP/{id}")
     Call<ResponseBody> DeleteLoaiSP(@Path("id") String id);

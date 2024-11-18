@@ -1,10 +1,14 @@
 package com.project1.toystoreapp.API_end_points;
 
 import android.util.Log;
+
+import com.google.gson.Gson;
 import com.project1.toystoreapp.API_services.LoaiSPService;
 import com.project1.toystoreapp.model.LoaiSP;
+import com.project1.toystoreapp.model.LoaiSP_user;
 import com.project1.toystoreapp.model.SanPham;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -58,13 +62,46 @@ public class LoaiSPEndpoint extends BaseAPIEndpoint{
             public void onResponse(Call<List<LoaiSP>> call, Response<List<LoaiSP>> response) {
                 if(response.isSuccessful()&&response.body()!=null){
                     listLSP.accept(response.body());
+
                 }else {
                     listLSP.accept(Collections.emptyList());
+                    try {
+                        Log.e("onResponse: ", response.errorBody().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
             @Override
             public void onFailure(Call<List<LoaiSP>> call, Throwable t) {
                 listLSP.accept(Collections.emptyList());
+                Log.e("onResponse: ", t.getMessage());
+            }
+        });
+    }
+
+    public void getAllLoaiSPPopulateForUser(Consumer<List<LoaiSP_user>> listLSP){
+        loaiSPService.GetAllLoaiSPPopulateforUser().enqueue(new Callback<List<LoaiSP_user>>() {
+            @Override
+            public void onResponse(Call<List<LoaiSP_user>> call, Response<List<LoaiSP_user>> response) {
+                if(response.isSuccessful()&&response.body()!=null){
+                    listLSP.accept(response.body());
+                    Gson gson = new Gson();
+                    Log.e("onResponse: ", gson.toJson(response.body()));
+
+                }else {
+                    listLSP.accept(Collections.emptyList());
+                    try {
+                        Log.e("onResponse: ", response.errorBody().string());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<List<LoaiSP_user>> call, Throwable t) {
+                listLSP.accept(Collections.emptyList());
+                Log.e("onResponse: ", t.getMessage());
             }
         });
     }

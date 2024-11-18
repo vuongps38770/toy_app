@@ -73,7 +73,8 @@ public class Admin_QL_ThuongHieu_adapter extends RecyclerView.Adapter<Admin_QL_T
         }
         public void clickItem(ThuongHieu thuongHieu,int posistion){
             itemView.setOnClickListener(v->{
-                listener.onItemClicked(thuongHieu,posistion);
+                if(listener!=null)
+                    listener.onItemClicked(thuongHieu,posistion);
             });
             
         }

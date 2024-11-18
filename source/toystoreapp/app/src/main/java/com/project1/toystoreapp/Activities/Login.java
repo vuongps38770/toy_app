@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
         });
         ///sample----------------------------------------------------------------------------------------
-        binding.taikhoan.setText("083764312");
+        binding.taikhoan.setText("12345671");
         binding.matkhau.setText("vuong123");
         ///sample----------------------------------------------------------------------------------------
         binding.btnlogin.setOnClickListener(v -> {
@@ -82,7 +82,7 @@ public class Login extends AppCompatActivity {
             binding.progress.setVisibility(View.VISIBLE);
             UserEndpoint userEndpoint = new UserEndpoint();
             User user=  new User(binding.taikhoan.getText().toString(), binding.matkhau.getText().toString());
-            userEndpoint.validate(user, new Callback<>() {
+            userEndpoint.validate(User.cloneUser(user), new Callback<>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     if(response.isSuccessful()&&response.body() != null){

@@ -25,17 +25,24 @@ public class UserEndpoint extends BaseAPIEndpoint{
 
     }
     public void validate(User user, Callback<User> callback){
+        user.setPassword(PasswordHasher.hashPassword(user.getPassword()));
+        Log.e("validate: ", user.getPassword());
         userService.ValidateUser(user).enqueue(callback);
     }
     public void createUser(User user, AddUserListener callback){
         user.setPassword(PasswordHasher.hashPassword(user.getPassword()));
-        userService.addUser(user).enqueue(new Callback<ResponseBody>() {
+        userService.addUser(user).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     callback.onSucsess();
-                }else {
+                } else {
                     callback.onFailure();
+                    try {
+                        Log.e("onResponcreatese: ",response.errorBody().string() );
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
