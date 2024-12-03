@@ -15,7 +15,7 @@ public abstract class BaseAPIEndpoint {
 
     public BaseAPIEndpoint() {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.4:3000/" + dbname)
+                .baseUrl("http://192.168.63.9:3000/" + dbname)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
