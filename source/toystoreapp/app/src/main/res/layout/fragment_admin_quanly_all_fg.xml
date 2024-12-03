@@ -2,39 +2,422 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/swipe"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".layout.Admin_QuanLy_all_fg">
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="qlylsp"
-            android:id="@+id/qlsp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="qlylspcon"
-            android:id="@+id/qlylspcon"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="qlysp"
-            android:id="@+id/qlysp"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="qlybanner"
-            android:id="@+id/qlyBanner"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="QlyThuongHieu"
-            android:id="@+id/QlyThuongHieu"/>
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/dashboard"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wellcome!"
+                android:textSize="30sp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="50dp"
+                android:textColor="@color/white"
+                android:id="@+id/title">
+            </TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_marginTop="120dp"
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:weightSum="2">
+                    <androidx.cardview.widget.CardView
+                        android:paddingHorizontal="20dp"
+                        android:layout_width="0dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        app:cardElevation="3dp"
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:backgroundTint="@color/blue_lv1"
+                        >
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/white_rounded"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="40dp">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/img_ic_blue"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Loại sản phẩm"
+                            android:fontFamily="sans-serif"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_main"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="40dp"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="130dp"
+                            android:background="@drawable/white_rounded"
+                            android:layout_height="40dp"
+                            android:id="@+id/qlsp"
+                            android:backgroundTint="@color/blue_lv3"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="16dp"
+                            android:text="Quản Lý"
+                            android:fontFamily="sans-serif"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"/>
+                    </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        app:cardElevation="3dp"
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:backgroundTint="@color/red_lv1"
+                        >
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/white_rounded"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="40dp">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/tag"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Danh mục"
+                            android:fontFamily="sans-serif"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_main"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="40dp"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="130dp"
+                            android:background="@drawable/white_rounded"
+                            android:layout_height="40dp"
+                            android:id="@+id/qlylspcon"
+                            android:backgroundTint="@color/red_lv2"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="16dp"
+                            android:text="Quản lý"
+                            android:fontFamily="sans-serif"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"/>
+                    </androidx.cardview.widget.CardView>
 
 
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="6dp"
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:weightSum="2">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        app:cardElevation="3dp"
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:backgroundTint="@color/blue_green_lv1"
+                        >
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/white_rounded"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="40dp">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/item_sanpham_icon"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sản phẩm"
+                            android:fontFamily="sans-serif"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_main"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="40dp"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="130dp"
+                            android:background="@drawable/white_rounded"
+                            android:layout_height="40dp"
+                            android:id="@+id/qlysp"
+                            android:backgroundTint="@color/blue_green_lv3"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="16dp"
+                            android:text="Quản Lý"
+                            android:fontFamily="sans-serif"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"/>
+                    </androidx.cardview.widget.CardView>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        app:cardElevation="3dp"
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:backgroundTint="@color/orange_lv1"
+                        >
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/white_rounded"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="40dp">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/item_banner_icon"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Banner"
+                            android:fontFamily="sans-serif"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_main"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="40dp"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="130dp"
+                            android:background="@drawable/white_rounded"
+                            android:layout_height="40dp"
+                            android:id="@+id/qlyBanner"
+                            android:backgroundTint="@color/orange_lv3"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="16dp"
+                            android:text="Quản lý"
+                            android:fontFamily="sans-serif"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"/>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_marginTop="6dp"
+                    android:layout_gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:weightSum="2">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        app:cardElevation="3dp"
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:backgroundTint="@color/green_lv1"
+                        >
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/white_rounded"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="40dp">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/item_thuonghieu_icon"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thương hiệu"
+                            android:fontFamily="sans-serif"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_main"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="40dp"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="130dp"
+                            android:background="@drawable/white_rounded"
+                            android:layout_height="40dp"
+                            android:id="@+id/QlyThuongHieu"
+                            android:backgroundTint="@color/green_lv3"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="16dp"
+                            android:text="Quản Lý"
+                            android:fontFamily="sans-serif"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"/>
+                    </androidx.cardview.widget.CardView>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="250dp"
+                        android:layout_weight="1"
+                        app:cardElevation="3dp"
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:backgroundTint="@color/yellow_lv1"
+                        >
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/white_rounded"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="40dp">
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/item_doanhthu_icon"
+                                android:layout_gravity="center"/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Doanh thu"
+                            android:fontFamily="sans-serif"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_main"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="40dp"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="130dp"
+                            android:background="@drawable/white_rounded"
+                            android:layout_height="40dp"
+                            android:id="@+id/Doanhthu"
+                            android:backgroundTint="@color/yellow_lv3"
+                            android:layout_gravity="center|bottom"
+                            android:layout_marginBottom="16dp"
+                            android:text="Xem thống kê"
+                            android:fontFamily="sans-serif"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"/>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/dummyLayout"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:text="Đã hết nội dung!"/>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+    </ScrollView>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/qlylspcon"/>-->
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/qlysp"/>-->
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/qlyBanner"/>-->
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/QlyThuongHieu"/>-->
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/Doanhthu"/>-->
+<!--    </LinearLayout>-->
 </FrameLayout>

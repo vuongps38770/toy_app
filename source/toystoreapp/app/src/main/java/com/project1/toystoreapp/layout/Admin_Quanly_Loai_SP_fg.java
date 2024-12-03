@@ -1,28 +1,21 @@
     package com.project1.toystoreapp.layout;
 
-    import static kotlinx.coroutines.flow.FlowKt.subscribeOn;
-
-    import android.database.Observable;
     import android.os.Bundle;
     import androidx.annotation.NonNull;
     import androidx.annotation.Nullable;
+    import androidx.core.content.res.ResourcesCompat;
     import androidx.fragment.app.Fragment;
-    import androidx.recyclerview.widget.GridLayoutManager;
     import androidx.recyclerview.widget.LinearLayoutManager;
     import androidx.recyclerview.widget.RecyclerView;
 
-    import android.os.Looper;
-    import android.util.Log;
     import android.view.LayoutInflater;
     import android.view.View;
     import android.view.ViewGroup;
     import android.widget.ProgressBar;
-    import android.widget.TextView;
     import android.widget.Toast;
 
-    import com.bumptech.glide.load.DataSource;
     import com.project1.toystoreapp.API_end_points.LoaiSPEndpoint;
-    import com.project1.toystoreapp.Interfaces.OnUpdateListener;
+    import com.project1.toystoreapp.Activities.Admin_screen;
     import com.project1.toystoreapp.R;
     import com.project1.toystoreapp.RecyclerAdapters.Admin_QL_LSP_adapter;
     import com.project1.toystoreapp.model.LoaiSP;
@@ -30,9 +23,8 @@
     import java.util.ArrayList;
     import java.util.List;
 
-    import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-    import io.reactivex.rxjava3.core.Scheduler;
-    import io.reactivex.rxjava3.observers.DisposableObserver;
+    import www.sanju.motiontoast.MotionToast;
+    import www.sanju.motiontoast.MotionToastStyle;
 
 
     /**
@@ -50,7 +42,7 @@
         // TODO: Rename and change types of parameters
         private String mParam1;
         private String mParam2;
-
+        Admin_QL_LSP_adapter adminQlLspAdapter;
         public Admin_Quanly_Loai_SP_fg() {
             // Required empty public constructor
         }
@@ -100,7 +92,7 @@
                 if (loaiSPS.size() > 0) {
                     list = loaiSPS;
                     getActivity().runOnUiThread(() -> {
-                        Admin_QL_LSP_adapter adminQlLspAdapter = new Admin_QL_LSP_adapter(getContext(), list);
+                        adminQlLspAdapter = new Admin_QL_LSP_adapter(getContext(), list);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
                         recyclerView.setAdapter(adminQlLspAdapter);
                         progressBar.setVisibility(View.GONE);
@@ -108,8 +100,14 @@
                     });
                 } else {
                     getActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(), "No data found", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
+                            MotionToast.Companion.createToast(getActivity(),
+                                    "",
+                                    "No data found",
+                                    MotionToastStyle.WARNING,
+                                    MotionToast.GRAVITY_BOTTOM,
+                                    MotionToast.SHORT_DURATION,
+                                    ResourcesCompat.getFont(getContext(), www.sanju.motiontoast.R.font.helvetica_regular));
+                            progressBar.setVisibility(View.GONE);
                     });
                 }
             });

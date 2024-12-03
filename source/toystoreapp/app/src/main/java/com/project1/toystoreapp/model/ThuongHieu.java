@@ -1,4 +1,4 @@
-package com.project1.toystoreapp.Classes;
+package com.project1.toystoreapp.model;
 
 import androidx.annotation.NonNull;
 

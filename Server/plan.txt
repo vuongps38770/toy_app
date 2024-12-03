@@ -102,3 +102,56 @@ exports.thongKeDoanhThuTheoSanPham = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.deleteLoaiSP = async (req, res) => {
+    const { loaispId } = req.body; // LoaiSP cần xóa, truyền vào trong body
+
+    try {
+        // Bước 1: Tìm loại sản phẩm (LoaiSP) cần xóa
+        const loaisp = await Loaisp.findById(loaispId).populate('listLoaiSPConID');
+        if (!loaisp) {
+            return res.status(404).json({ error: "LoaiSP không tồn tại!" });
+        }
+
+        // Bước 2: Kiểm tra tất cả các sản phẩm con (LoaiSPCon) xem có sản phẩm nào liên quan không
+        let canDeleteLoaiSP = true; // Biến kiểm tra nếu có thể xóa LoaiSP
+
+        for (let loaispcon of loaisp.listLoaiSPConID) {
+            if (loaispcon.sp && loaispcon.sp.length > 0) {
+                // Nếu LoaiSPCon có chứa sản phẩm (sp) thì không xóa LoaiSP
+                canDeleteLoaiSP = false;
+                break; // Dừng lại nếu tìm thấy sản phẩm
+            }
+        }
+
+        // Bước 3: Nếu không có sản phẩm con nào chứa sản phẩm, thực hiện xóa LoaiSP và các LoaiSPCon
+        if (canDeleteLoaiSP) {
+            // Xóa LoaiSPCon trước nếu cần thiết
+            await LoaispCon.deleteMany({ _id: { $in: loaisp.listLoaiSPConID } });
+
+            // Sau đó xóa LoaiSP
+            await loaisp.remove();
+
+            return res.status(200).json({ message: "LoaiSP và các LoaiSPCon đã được xóa thành công!" });
+        } else {
+            return res.status(400).json({ error: "Không thể xóa LoaiSP vì có sản phẩm con liên quan!" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Lỗi khi xóa LoaiSP!" });
+    }
+};

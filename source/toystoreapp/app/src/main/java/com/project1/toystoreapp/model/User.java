@@ -2,7 +2,9 @@ package com.project1.toystoreapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     @SerializedName("_id")
     private String id;
     private String username;
@@ -10,7 +12,16 @@ public class User {
     private String phonenumber;
     private String email;
     private int role;
-
+    public static User cloneUser(User user){
+        User clone = new User();
+        clone.setPassword(user.getPassword());
+        clone.setEmail(user.getEmail());
+        clone.setId(user.getId());
+        clone.setPhonenumber(user.getPhonenumber());
+        clone.setUsername(user.getUsername());
+        clone.setRole(user.getRole());
+        return clone;
+    }
     public User() {
     }
 

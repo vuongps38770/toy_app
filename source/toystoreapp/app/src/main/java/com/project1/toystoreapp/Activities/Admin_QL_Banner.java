@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -30,20 +31,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
+
 public class Admin_QL_Banner extends AppCompatActivity {
     ActivityAdminQlBannerBinding binding;
     ImagePicker imagePicker;
     Banner banner;
     final Uri[] uris=new Uri[3];
-    int counter=0;
+    private int counter=0;
     final Banner[] banners = {null};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         banner = new Banner();
         imagePicker = new ImagePicker(this);
         binding = ActivityAdminQlBannerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Glide.with(binding.progress).load(R.drawable.loading).into(binding.progress);
+        binding.back.setOnClickListener(v->{
+            getOnBackPressedDispatcher().onBackPressed();
+        });
         BannerEndpoint endpoint = new BannerEndpoint();
         endpoint.getBanner(new BannerEndpoint.OnGetBannerListener() {
             @Override
@@ -80,7 +89,13 @@ public class Admin_QL_Banner extends AppCompatActivity {
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(Admin_QL_Banner.this, message, Toast.LENGTH_SHORT).show();
+                MotionToast.Companion.createToast(Admin_QL_Banner.this,
+                        "Thất bại!",
+                        message,
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(Admin_QL_Banner.this, www.sanju.motiontoast.R.font.helvetica_regular));
                 ArrayList<SlideModel> imageList = new ArrayList<>();
                 imageList.add(new SlideModel(R.drawable.img_1,"",null));
                 imageList.add(new SlideModel(R.drawable.img_1,"",null));
@@ -131,27 +146,25 @@ public class Admin_QL_Banner extends AppCompatActivity {
                 binding.progress.setVisibility(View.VISIBLE);
                 if(uris[0]!=null){
                     if(counter==-1){
-                        Toast.makeText(Admin_QL_Banner.this, "Có lôỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Admin_QL_Banner.this, "Có lỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     upload(uris[0],0);
                 }
                 if(uris[1]!=null){
                     if(counter==-1){
-                        Toast.makeText(Admin_QL_Banner.this, "Có lôỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Admin_QL_Banner.this, "Có lỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     upload(uris[1],1);
                 }
                 if(uris[2]!=null){
                     if(counter==-1){
-                        Toast.makeText(Admin_QL_Banner.this, "Có lôỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Admin_QL_Banner.this, "Có lỗi xảy ra khi upload ảnh", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     upload(uris[2],2);
                 }
-
-
             }
         });
     }

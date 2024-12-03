@@ -10,4 +10,6 @@ router.put('/loaisp/unactivate/:id',loaispController.unActivate)
 router.put('/loaisp/activateToggle/:id',loaispController.activateToggle)
 router.put('/loaisp/editLoaiSP',loaispController.editLoaiSPByID)
 router.get('/loaisp/getAllLoaiSPPopulate',loaispController.getAllLoaiSPPopulate)
+router.delete('/loaisp/deleteLoaiSP/:id',loaispController.deleteLoaiSP)
+
 module.exports=router;
