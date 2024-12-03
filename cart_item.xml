@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:src="@drawable/expired"
+        android:visibility="gone"
+        android:id="@+id/expiredTag"
+        android:scaleType="fitCenter"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/img_1"
+                android:scaleType="centerInside"
+                android:id="@+id/anh"
+                android:layout_marginRight="10dp"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+
+                >
+                <TextView
+                    android:id="@+id/tensp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="tên sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-medium"/>
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Thành tiền"
+                    android:textColor="@color/black"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginTop="3dp"/>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="3"
+                android:gravity="center"
+                android:paddingVertical="3dp"
+                >
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/acs"
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="+"
+                    android:background="@drawable/btn_enable"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/quantity"
+                    android:text="1"
+                    />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/desc"
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:background="@drawable/button_disable"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</FrameLayout>
