@@ -4,16 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".layout.Admin_Quanly_Loai_SP_fg"
-    android:background="@color/white">
-    <androidx.recyclerview.widget.RecyclerView
+    android:background="@color/white"
+    android:paddingHorizontal="20dp"
+>
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerview"/>
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:clipToPadding="true"
+                android:paddingTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerview"
+                android:nestedScrollingEnabled="true"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:id="@+id/progress"
         android:visibility="gone"/>
-
 </FrameLayout>

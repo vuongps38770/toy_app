@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 import com.project1.toystoreapp.API_services.ThuongHieuService;
 import com.project1.toystoreapp.Classes.CloudinaryUpload;
-import com.project1.toystoreapp.Classes.ThuongHieu;
+import com.project1.toystoreapp.model.ThuongHieu;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +50,20 @@ public class ThuongHieuEndpoint extends BaseAPIEndpoint{
             }
         });
     }
+    public void getAllThuongHieuActivated(Consumer<List<ThuongHieu>> list){
+        thuongHieuService.getAllThuongHieuActivated().enqueue(new Callback<List<ThuongHieu>>() {
+            @Override
+            public void onResponse(Call<List<ThuongHieu>> call, Response<List<ThuongHieu>> response) {
+                if(response.isSuccessful()) list.accept(response.body());
+                else list.accept(Collections.emptyList());
+            }
 
+            @Override
+            public void onFailure(Call<List<ThuongHieu>> call, Throwable t) {
+                list.accept(Collections.emptyList());
+            }
+        });
+    }
     public interface CreateThuongHieuCallBack{
         void onSuccess();
         void onLoi(String message);
@@ -58,7 +71,7 @@ public class ThuongHieuEndpoint extends BaseAPIEndpoint{
         void onSave();
     }
 
-    public void getAllThuongHieu( Consumer<List<ThuongHieu>> list){
+    public void getAllThuongHieu(Consumer<List<ThuongHieu>> list){
         thuongHieuService.getAllThuongHieu().enqueue(new Callback<List<ThuongHieu>>() {
             @Override
             public void onResponse(Call<List<ThuongHieu>> call, Response<List<ThuongHieu>> response) {
@@ -108,5 +121,9 @@ public class ThuongHieuEndpoint extends BaseAPIEndpoint{
                 callBack.onLoi("Vui lòng kiểm tra kết nối");
             }
         });
+    }
+    public void editThuongHieu(ThuongHieu thuongHieu, Callback<ThuongHieu> callback){
+        thuongHieu.setUrlthumbnail(thuongHieu.getUrlthumbnail().replaceFirst("http://","https://"));
+        thuongHieuService.editThuongHieu(thuongHieu).enqueue(callback);
     }
 }
