@@ -1,0 +1,58 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Nhóm "Quản lý" -->
+    <group
+        android:id="@+id/group_quanly"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_home"
+            android:title="Trang Chủ" />
+        <item
+            android:id="@+id/nav_giohang"
+            android:title="Giỏ Hàng" />
+        <item
+            android:id="@+id/nav_quanlysp"
+            android:title="Quản Lý Sản Phẩm" />
+        <item
+            android:id="@+id/nav_xacthuc"
+            android:title="Xác Thực Đơn Hàng"/>
+    </group>
+
+    <!-- Dấu gạch ngang giữa các nhóm -->
+    <item
+        android:title="Doanh Thu"
+        android:enabled="false"
+        android:icon="@android:color/transparent" />
+
+    <!-- Nhóm "Doanh thu" -->
+    <group
+        android:id="@+id/group_doanhthu"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_top10"
+            android:title="Top 10 Sản Phẩm" />
+        <item
+            android:id="@+id/nav_doanhthu"
+            android:title="Thống Kê Doanh Thu" />
+    </group>
+
+    <!-- Dấu gạch ngang giữa các nhóm -->
+    <item
+        android:title="Người Dùng"
+        android:enabled="false"
+        android:icon="@android:color/transparent" />
+
+    <!-- Nhóm "Người dùng" -->
+    <group
+        android:id="@+id/group_nguoisudung"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_dmk"
+            android:title="Đổi Mật Khẩu" />
+        <item
+            android:id="@+id/nav_dangxuat"
+            android:title="Đăng Xuất" />
+    </group>
+</menu>

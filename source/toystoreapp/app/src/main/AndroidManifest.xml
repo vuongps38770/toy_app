@@ -17,18 +17,6 @@
         android:theme="@style/Theme.Toystoreapp"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.Login"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Admin_screen"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ValidateCode"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ForgotPW"
-            android:exported="false" />
-        <activity
             android:name=".Activities.Admin_QL_Banner"
             android:exported="false" />
         <activity
@@ -43,7 +31,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Activities.CTSP"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
