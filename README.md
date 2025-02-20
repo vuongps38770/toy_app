@@ -4,9 +4,11 @@ ToyStore
 Description:
 ------------
 - Đây là ứng dụng mua sắm đồ chơi online được phát triển bởi vuongDZ, với giao diện thân thiện và các chức năng dễ sử dụng
+------------
 How to Isntall:
 ------------
 Cài đặt file apk (thiết bị android).
+------------
 How to use:
 ------------
 1. Mở ứng dụng và Đăng nhập hoặc đăng ký tài khoản
