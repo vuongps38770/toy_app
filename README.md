@@ -16,9 +16,9 @@ How to use:
 
 *Note:
 --------
-- Server được deploy trên render nên nếu khi đăng nhập không thể kết nối với máy chủ thì hãy kiên nhẫn chờ đợi khoảng 40 giây, mọi thứ sẽ họt động mượt mà
+- Server được deploy trên render nên nếu khi đăng nhập không thể kết nối với máy chủ thì hãy kiên nhẫn chờ đợi khoảng 40 giây, mọi thứ sẽ hoạt động mượt mà
 - Chức năng thanh toán bằng zalo sử dụng môi trường sandbox bạn có thể tải zalo sandbox hoặc sử dụng thanh toán khi nhận hàng
-- Đây là ứng dụng phục vụ mục đích học tập và giáo dục và không phải ứng dụng thương mại điện tử được cấp phép vui lòng chỉ sử dụng nó như 1 ứng dụng thử nghiệm
+- Đây là ứng dụng phục vụ mục đích học tập và giáo dục và không phải ứng dụng thương mại điện tử được cấp phép, vui lòng chỉ sử dụng nó như 1 ứng dụng thử nghiệm
 - Mọi vấn đề về bản quyền hay liên hệ trao đổi xin vui lòng liên hệ qua email: vuongdtqps38770@gmail.com
 
 Author:
