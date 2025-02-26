@@ -15,9 +15,9 @@ import java.io.InputStream;
 import java.util.Map;
 
 public class CloudinaryUpload {
-    private final String CLOUD_NAME = "dzuqdrb1e";
-    private final String API_KEY = "444138869151349";
-    private final String API_SECRET = "3v80auXRVnYpbLZmrVoJk1VA4eQ";
+    private final String CLOUD_NAME = "CLOUD_NAME";
+    private final String API_KEY = "API_KEY";
+    private final String API_SECRET = "API_SECRET";
 
     private final Context context;
     private UploadCallback callback;
